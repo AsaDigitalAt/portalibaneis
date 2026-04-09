@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/youtube",
+      "schedule": "0 */12 * * *"
+    },
+    {
+      "path": "/api/cron/instagram",
+      "schedule": "0 */8 * * *"
+    }
+  ]
+}
