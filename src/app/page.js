@@ -595,11 +595,144 @@ export default function Home() {
     }
   };
 
+  const socialLinks = [
+    {
+      name: 'Instagram',
+      url: 'https://www.instagram.com/ibaneisoficial?igsh=MWlsZnl6NmYxeXd6Yw%3D%3D&utm_source=qr',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      )
+    },
+    {
+      name: 'Facebook',
+      url: 'https://www.facebook.com/share/1S6rzPh7RS/?mibextid=wwXIfr',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      )
+    },
+    {
+      name: 'X (Twitter)',
+      url: 'https://x.com/ibaneisoficial?s=21',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      )
+    },
+    {
+      name: 'Threads',
+      url: 'https://www.threads.com/@ibaneisoficial?igshid=NTc4MTIwNjQ2YQ==',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068c0-3.52.85-6.374 2.495-8.423C5.844 1.205 8.597.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.51 5.467l-2.04.569c-.556-1.96-1.51-3.467-2.84-4.492C16.365 2.625 14.5 2.02 12.19 2H12.18c-2.952.02-5.186.976-6.638 2.84C4.184 6.612 3.5 9.07 3.5 12.068c0 3 .684 5.456 2.042 7.228 1.452 1.864 3.686 2.817 6.638 2.84h.007c2.59-.02 4.537-.748 5.782-2.163 1.337-1.52 1.976-3.74 1.9-6.59-.017-.657-.062-1.257-.133-1.793-.67.148-1.355.24-2.05.266-.052.002-.103.003-.154.003-2.21 0-3.946-.705-4.94-1.987-.846-1.093-1.1-2.593-.743-4.207.478-2.176 2.018-3.744 4.065-4.197.644-.14 1.38-.166 2.113-.076 1.32.164 2.473.666 3.29 1.426.62.578 1.04 1.297 1.233 2.1.183.763.161 1.59-.065 2.46-.3 1.148-.934 2.065-1.837 2.666.126.58.216 1.2.27 1.848.083 1.028.1 2.034.05 2.987h-.001c-.095 1.823-.58 3.378-1.404 4.523C18.26 22.935 15.573 24 12.186 24zm2.287-14.658c-.37-.046-.748-.036-1.11.035-1.27.272-2.145 1.208-2.457 2.6-.228 1.036-.101 1.966.36 2.567.576.743 1.618 1.12 3.012 1.12.042 0 .085 0 .128-.002.573-.02 1.14-.1 1.693-.24-.093-.52-.143-1.08-.148-1.67-.009-.979.064-2.023.24-3.108-.5-.715-1.084-1.139-1.718-1.302z"/>
+        </svg>
+      )
+    },
+    {
+      name: 'TikTok',
+      url: 'https://www.tiktok.com/@ibaneisoficial?_r=1&_t=ZS-95P8OjUObX2',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.5a8.19 8.19 0 004.78 1.52V6.56a4.85 4.85 0 01-1.01.13z"/>
+        </svg>
+      )
+    },
+    {
+      name: 'Kwai',
+      url: 'https://k.kwai.com/u/@IbaneisOficial/zJV1C02D',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.5 17l-4-4.5V17H10V7h3.5v4.5L17.5 7H21l-4.5 5 4.5 5h-3.5z"/>
+        </svg>
+      )
+    },
+    {
+      name: 'YouTube',
+      url: 'https://youtube.com/@ibaneisrochaoficial?si=rbewEqan4ifLg84W',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      )
+    },
+  ];
+
   return (
     <>
       <main style={{width:'100%'}}>
         {parse(rawHTML, options)}
       </main>
+
+      {/* Footer com redes sociais */}
+      <footer style={{
+        background: '#002759',
+        color: '#fff',
+        padding: '32px 24px',
+        marginTop: 0
+      }}>
+        <div style={{maxWidth: 900, margin: '0 auto'}}>
+          {/* Logo e tagline */}
+          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 28}}>
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FLOGO%20IBANEIS%20variacoes_BRANCA.AZUL%20ESCURO.png?alt=media&token=2c0c1b73-225e-4ec2-bec1-4ca8cacd4a00"
+              alt="Ibaneis Rocha"
+              style={{height: 40, marginBottom: 10, filter: 'brightness(0) invert(1)'}}
+            />
+            <p style={{fontSize: 12, color: '#8eadd4', textAlign: 'center', margin: 0}}>
+              Portal oficial de dados, obras e entregas do Governo do Distrito Federal
+            </p>
+          </div>
+
+          {/* Redes Sociais */}
+          <div style={{marginBottom: 24}}>
+            <p style={{fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.8px', color: '#8eadd4', textAlign: 'center', marginBottom: 16, fontWeight: 700}}>
+              Siga nas redes sociais
+            </p>
+            <div style={{display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap'}}>
+              {socialLinks.map(social => (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  title={social.name}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    padding: '8px 14px',
+                    borderRadius: 8,
+                    background: 'rgba(255,255,255,0.08)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    transition: 'background 0.2s',
+                  }}
+                  onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.18)'}
+                  onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+                >
+                  {social.icon}
+                  <span>{social.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Divider + créditos */}
+          <div style={{borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 20, textAlign: 'center'}}>
+            <p style={{fontSize: 11, color: '#8eadd4', margin: 0}}>
+              © 2019–2026 Ibaneis Rocha · Governo do Distrito Federal · Todos os direitos reservados
+            </p>
+          </div>
+        </div>
+      </footer>
+
       {chatOpen && <AIChatWidget onClose={() => setChatOpen(false)} />}
     </>
   );
