@@ -46,16 +46,26 @@ async function runApifyCrawler() {
     }
     const processados = new Set(bancoExistente.map(e => e.link));
 
-    // Input do ator Google Search do Apify
+    const anos = ["2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"];
+    const keywords = ["obras", "inaugura", "entrega", "conclui", "investe", "reforma", "viaduto", "hospital"];
+    
+    // Gerar dezenas de queries ricas para cobrir todos os anos do mandato
+    const rotinasBusca = [];
+    anos.forEach(ano => {
+        keywords.forEach(kw => {
+            rotinasBusca.push(`site:agenciabrasilia.df.gov.br/w/ "${kw}" ${ano}`);
+        });
+    });
+
     const input = {
-        queries: "site:agenciabrasilia.df.gov.br \"inaugura\" OR \"entrega\" OR \"nova\" OR \"obras\"",
-        resultsPerPage: 100, // Pegar alto volume
-        maxPagesPerQuery: 5, // Até 500 resultados de cara
+        queries: rotinasBusca.join('\n'), // Apify aceita várias queries separadas por quebra de linha
+        resultsPerPage: 100, // Pegar alto volume por requisição
+        maxPagesPerQuery: 3, // Vai varrer profundo em cada um
         languageCode: "pt-BR",
         countryCode: "br"
     };
 
-    console.log("⏳ Disparando varredura remota pelo Apify... (Isso pode demorar alguns minutos)");
+    console.log(`⏳ Disparando varredura massiva. Consultando ${rotinasBusca.length} combinações diferentes no Apify...`);
     try {
         const run = await client.actor("apify/google-search-scraper").call(input);
         console.log(`✅ Varredura G-Search finalizada. Dataset: ${run.defaultDatasetId}`);
