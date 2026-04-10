@@ -358,5 +358,266 @@
     "area": "Habitação",
     "regiao": "Itapoã",
     "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/quase-mil-obras-em-sete-anos-transformam-a-infraestrutura-urbana-de-ceilandia",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Quase mil obras em sete anos transformam a infraestrutura ...",
+    "date": "15/06/2021",
+    "area": "Educação",
+    "regiao": "Todo o DF",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/no-ultimo-dia-de-mandato-governador-inaugura-viaduto-e-libera-trechos-da-epig",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "No último dia de mandato, governador inaugura viaduto e ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/neste-gdf-santa-maria-recebe-obras-aguardadas-ha-decadas-como-rodoviaria-e-escola-tecnica",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Neste GDF, Santa Maria recebe obras aguardadas há ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Santa Maria",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/obras-no-sol-nascente-avan%C3%A7am-com-conclus%C3%A3o-da-drenagem-e-pavimenta%C3%A7%C3%A3o",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Obras no Sol Nascente avançam com conclusão da ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Sol Nascente",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/gdf-entrega-obras-e-leva-acesso-a-energia-eletrica-agua-tratada-e-pavimentacao-para-comunidade-da-estrutural",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "GDF entrega obras e leva acesso a energia elétrica, água ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/df-entrega-quatro-novos-viadutos-em-18-meses-e-avanca-na-construcao-do-corredor-exclusivo-de-onibus-da-epig",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "DF entrega quatro novos viadutos em 18 meses e avança ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/especial-minha-cidade-sia-recebe-r-66-milhoes-em-obras-de-infraestrutura-para-atrair-novas-empresas-e-gerar-empregos",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "SIA recebe R$ 66 milhões em obras de infraestrutura para ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "SIA",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/gdf-entrega-pavimentacao-de-12-km-da-avenida-do-trem-bao-no-sol-nascente-investimento-e-de-r-145-milhoes",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "GDF entrega pavimentação de 12 km da Avenida do Trem ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/primeira-creche-e-unidades-de-saude-lideram-investimentos-do-gdf-no-gama-desde-2019",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Gama recebe a primeira creche, nova UPA e ainda ganha ...",
+    "date": "15/06/2021",
+    "area": "Educação",
+    "regiao": "Gama",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/com-investimento-de-mais-de-r-100-milhoes-gdf-autoriza-obras-de-saneamento-e-entrega-servicos-de-energia-em-santa-luzia-na-estrutural",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Estrutural: Com R$ 100 milhões em investimentos, GDF ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Estrutural",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/gdf-finaliza-pavimentacao-da-marginal-da-br-040-e-inicia-sinalizacao-da-via",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "GDF finaliza pavimentação da marginal da BR-040 e inicia ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/gdf-amplia-reforma-urbana-com-obras-na-w3-norte-e-no-setor-comercial-sul",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "GDF amplia reforma urbana com obras na W3 Norte e no ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Plano Piloto",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/ibaneis-rocha-inaugura-marginal-da-br-040-com-investimento-de-r-105-milhoes",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Ibaneis Rocha inaugura marginal da BR-040 com ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/gdf-autoriza-inicio-das-obras-do-viaduto-e-da-passarela-do-jardins-mangueiral",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "GDF autoriza início das obras do viaduto e da passarela ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/obras-de-infraestrutura-em-santa-maria-vao-beneficiar-mais-de-700-familias",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Obras de infraestrutura em Santa Maria vão beneficiar ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Santa Maria",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/alteracoes-no-transito-da-epig-comecam-a-valer-saiba-o-que-muda-e-como-estao-as-obras",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Alterações no trânsito da Epig começam a valer",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/praca-da-biblia-ganha-nova-vida-apos-reforma-e-se-torna-polo-de-convivencia-na-candangolandia",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Praça da Bíblia ganha nova vida após reforma e se torna ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Candangolândia",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/df-investe-mais-de-r-1-bilhao-nas-principais-obras-entregues-de-2023",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "DF investe mais de R$ 1 bilhão nas principais obras ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/governo-investe-r-32-milhoes-em-obras-de-drenagem-e-pavimentacao-no-itapoa",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Governo investe R$ 32 milhões em obras de drenagem e ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Itapoã",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/com-investimento-de-r-300-milhoes-der-df-executou-obras-que-garantem-seguranca-conforto-e-mobilidade",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Com investimento de R$ 300 milhões, DER-DF executou ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/governo-entrega-as-chaves-de-58-moradias-do-bairro-alto-mangueiral-em-sao-sebastiao",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Governo entrega as chaves de 58 moradias do bairro Alto ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "São Sebastião",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/gdf-entrega-obras-estrategicas-e-chega-a-marca-de-r-45-bi-investidos",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "GDF entrega obras estratégicas e chega à marca de R$ 4 ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/governador-inaugura-anel-viario-do-parque-burle-marx-e-anuncia-novo-viaduto-do-noroeste",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Governador inaugura anel viário do Parque Burle Marx e ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Noroeste",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/governador-ibaneis-rocha-visita-obras-de-infraestrutura-urbana-no-sol-nascente",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Governador Ibaneis Rocha visita obras de infraestrutura ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/drenar-df-e-entrega-de-viadutos-estao-entre-as-grandes-obras-para-2023",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Drenar DF e entrega de viadutos estão entre as grandes ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/governador-ibaneis-rocha-entrega-tunel-rei-pele-maior-obra-de-sua-gestao",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Governador Ibaneis Rocha entrega Túnel Rei Pelé, maior ...",
+    "date": "15/06/2021",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2019-2022"
+  },
+  {
+    "link": "https://agenciabrasilia.df.gov.br/w/nova-estrutural-e-a-primeira-via-totalmente-em-concreto-no-df",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Nova Estrutural é a primeira via totalmente em concreto no ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/nova-rotatoria-entre-octogonal-e-sudoeste-e-liberada-e-garante-mais-fluidez-no-transito",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Nova rotatória entre Octogonal e Sudoeste é liberada e ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Sudoeste",
+    "periodo": "2023-2026"
+  },
+  {
+    "link": "https://www.agenciabrasilia.df.gov.br/w/entregas-e-novas-obras-vao-marcar-fim-de-ano-do-governo-ibaneis",
+    "img": "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg",
+    "text": "Entregas e novas obras vão marcar fim de ano do governo ...",
+    "date": "22/10/2024",
+    "area": "Infraestrutura",
+    "regiao": "Todo o DF",
+    "periodo": "2023-2026"
   }
 ]
