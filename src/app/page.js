@@ -41,11 +41,14 @@ export default function Home() {
             const sorted = [...d.videos].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
             setVideos(sorted.slice(0, 10)); // Armazenar até 10 para o 'Ver mais'
          } else {
+            // Vídeos reais do canal da Agência Brasília - 2019 a 2026
             setVideos([
-              { url: 'https://www.youtube.com/watch?v=F0K0Xy0K0kU', title: 'Carregando Apify...', duration: '...' },
-              { url: 'https://www.youtube.com/watch?v=kYJ7A0I9B0o', title: 'Sincronizando vídeos...', duration: '...' },
-              { url: 'https://www.youtube.com/watch?v=kYJ7A0I9B0o', title: 'Sincronizando vídeos...', duration: '...' },
-              { url: 'https://www.youtube.com/watch?v=kYJ7A0I9B0o', title: 'Sincronizando vídeos...', duration: '...' }
+              { url: 'https://www.youtube.com/watch?v=Zf8CbDNTDJI', title: 'UBS, UPA, creche, moradia, um viaduto e muito mais para o Riacho Fundo II', duration: '3:22' },
+              { url: 'https://www.youtube.com/watch?v=EfOF47DavOU', title: 'Programa da Ceasa transforma desperdício em alimento na mesa de famílias', duration: '4:10' },
+              { url: 'https://www.youtube.com/watch?v=VIGzkw5KuCM', title: 'Lei que facilita acesso ao crédito para mulheres empreendedoras do DF é sancionada', duration: '5:15' },
+              { url: 'https://www.youtube.com/watch?v=Kjc5NIUykmw', title: 'Com investimento de R$ 1,3 milhão, Hran ganha cozinha hospitalar adequada', duration: '3:45' },
+              { url: 'https://www.youtube.com/watch?v=bmoyJmj46JQ', title: 'A inauguração da Escola da Natureza comandou a transformação do Núcleo Bandeirante', duration: '4:02' },
+              { url: 'https://www.youtube.com/watch?v=9s-YSOZeMXw', title: 'Tradicional Via Sacra no Morro da Capelinha reúne milhares de fiéis em Planaltina', duration: '3:58' },
             ]);
          }
       })
@@ -372,14 +375,24 @@ export default function Home() {
                       </div>
                   </div>
 
-                  {/* KPIs */}
+                  {/* KPIs Fixas (Conforme Wireframe original) */}
                   <div className="g4" style={{marginBottom:16}}>
-                      {Object.entries(areaCounts).slice(0, 4).map(([area, count]) => (
-                          <div key={area} className="metric-card" style={{border:`1px solid ${areaColors[area] || '#e5e4df'}20`, background:`${areaColors[area] || '#e5e4df'}08`, padding:12}}>
-                              <div style={{fontSize:18, fontWeight:900, color: areaColors[area] || '#1a1a18', marginBottom:2}}>{count}</div>
-                              <div style={{fontSize:8, color:'#aaa', textTransform:'uppercase', fontWeight:700}}>{area}</div>
-                          </div>
-                      ))}
+                      <div className="metric-card" style={{border:'1px solid #e5e4df'}}>
+                          <div style={{fontSize:18, fontWeight:800, color:'#1a1a18', marginBottom:4}}>7 mil+</div>
+                          <div style={{fontSize:8, color:'#aaa', textAlign:'center', textTransform:'uppercase'}}>Obras feitas</div>
+                      </div>
+                      <div className="metric-card" style={{border:'1px solid #e5e4df'}}>
+                          <div style={{fontSize:14, fontWeight:800, color:'#1a1a18', marginBottom:4, paddingTop:4}}>R$ 15,3 bi</div>
+                          <div style={{fontSize:8, color:'#aaa', textAlign:'center', textTransform:'uppercase'}}>Saúde</div>
+                      </div>
+                      <div className="metric-card" style={{border:'1px solid #e5e4df'}}>
+                          <div style={{fontSize:14, fontWeight:800, color:'#1a1a18', marginBottom:4, paddingTop:4}}>R$ 15,6 bi</div>
+                          <div style={{fontSize:8, color:'#aaa', textAlign:'center', textTransform:'uppercase'}}>Educação</div>
+                      </div>
+                      <div className="metric-card" style={{border:'1px solid #e5e4df'}}>
+                          <div style={{fontSize:14, fontWeight:800, color:'#1a1a18', marginBottom:4, paddingTop:4}}>R$ 14 bi</div>
+                          <div style={{fontSize:8, color:'#aaa', textAlign:'center', textTransform:'uppercase'}}>Segurança</div>
+                      </div>
                   </div>
 
                   {/* Filtros */}
@@ -423,39 +436,24 @@ export default function Home() {
                       )}
                   </div>
 
-                  {/* Grid de entregas */}
+                  {/* Grid de entregas estilo cards sem imagem (Wireframe original) */}
                   {biFiltered.length > 0 ? (
                       <div className="g3" style={{marginBottom:16}}>
                           {biFiltered.map((entrega, idx) => (
-                              <a href={entrega.link} target="_blank" rel="noreferrer" key={idx}
-                                  style={{textDecoration:'none', color:'inherit', display:'block'}}>
-                                  <div style={{
-                                      border:'1px solid #e8e8e4', borderRadius:8, overflow:'hidden',
-                                      background:'#fff', boxShadow:'0 2px 6px rgba(0,39,89,0.05)',
-                                      transition:'box-shadow 0.2s', cursor:'pointer'
-                                  }}>
-                                      {/* Thumbnail real do artigo */}
-                                      <div style={{
-                                          height:90, background:`url(${entrega.img}) center/cover`,
-                                          backgroundColor:'#e8e7e2', position:'relative'
-                                      }}>
-                                          <div style={{
-                                              position:'absolute', top:6, left:6,
-                                              background: areaColors[entrega.area] || '#0278F8',
-                                              color:'#fff', padding:'2px 8px', borderRadius:10, fontSize:8, fontWeight:700
-                                          }}>{entrega.area}</div>
+                              <a href={entrega.link} target="_blank" rel="noreferrer" key={idx} style={{textDecoration:'none', color:'inherit', display:'block'}}>
+                                  <div className="entrega-card" style={{border:'1px solid #e5e4df', borderRadius:7, padding:'10px 12px', background:'#fff', height:'100%', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
+                                      <div>
+                                          <div style={{display:'flex', justifyContent:'space-between', alignItems:'start', marginBottom:4}}>
+                                              <div className="tag">{entrega.area}</div>
+                                              <div style={{fontSize:8, color:'#aaa'}}>{new Date(entrega.date).toLocaleDateString('pt-BR')}</div>
+                                          </div>
+                                          <div style={{fontSize:11, fontWeight:600, color:'#222', lineHeight:1.2, margin:'4px 0'}}>
+                                              {entrega.text.substring(0, 90)}{entrega.text.length > 90 ? '...' : ''}
+                                          </div>
                                       </div>
-                                      <div style={{padding:'8px 10px'}}>
-                                          <div style={{fontSize:10, fontWeight:600, lineHeight:1.3, color:'#1a1a18', marginBottom:6}}>
-                                              {entrega.text.substring(0, 80)}{entrega.text.length > 80 ? '...' : ''}
-                                          </div>
-                                          <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                                              <div style={{display:'flex', alignItems:'center', gap:4}}>
-                                                  <div style={{width:6, height:6, borderRadius:'50%', background:'#0278F8'}}></div>
-                                                  <span style={{fontSize:9, color:'#777'}}>{entrega.regiao}</span>
-                                              </div>
-                                              <span style={{fontSize:8, color:'#aaa'}}>{entrega.date} · {entrega.periodo}</span>
-                                          </div>
+                                      <div className="city-row" style={{display:'flex', alignItems:'center', gap:4, marginTop:8}}>
+                                          <div className="city-dot" style={{width:7, height:7, borderRadius:'50%', background:'#bbb'}}></div>
+                                          <span style={{fontSize:9, color:'#777'}}>{entrega.regiao}</span>
                                       </div>
                                   </div>
                               </a>
