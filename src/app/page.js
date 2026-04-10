@@ -117,6 +117,8 @@ export default function Home() {
       if (domNode.name === 'h1' || (domNode.attribs && domNode.attribs.class === 'subtitle')) return <></>;
       if (domNode.attribs && domNode.attribs.class === 'nav-tabs') return <></>; 
       if (domNode.attribs && domNode.attribs.class === 'browser-bar') return <></>; 
+      // Suprimir footer skeleton do wireframe (substituído pelo footer real de redes sociais)
+      if (domNode.attribs && domNode.attribs.class === 'footer') return <></>;
       
       // 2. Transpirar shell
       if (domNode.attribs && domNode.attribs.class === 'browser') {
@@ -683,7 +685,7 @@ export default function Home() {
               style={{height: 40, marginBottom: 10, filter: 'brightness(0) invert(1)'}}
             />
             <p style={{fontSize: 12, color: '#8eadd4', textAlign: 'center', margin: 0}}>
-              Portal oficial de dados, obras e entregas do Governo do Distrito Federal
+              Portal oficial de dados, obras e entregas de Ibaneis Rocha como Governador do DF.
             </p>
           </div>
 
