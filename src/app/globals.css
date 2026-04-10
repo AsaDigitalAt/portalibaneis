@@ -113,5 +113,1176 @@ body {
 .timeline-year { font-size: 11px; color: #0278F8; font-weight: 800; margin-bottom: 4px; }
 
 /* Sobre hero */
-.sobre-hero { background: #002759; color: #fff; padding: 30px 24px; display: grid; grid-template-columns: 120px 1fr; gap: 20px; align-items: center; border-radius: 0 0 16px 16px; }
-.sobre-foto { height: 120px; background: #0278F8; border-radius: 12px; border:3px solid #fff;}
+
+/* ====== NOVA REPAGINACAO (HOME) ====== */
+/* Header Clean Azul Marinho */
+.header-clean { background: #002e77; padding: 10px 30px; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 100;}
+.header-nav { display: flex; gap: 20px;}
+.header-link { color: #fff; font-size: 11px; text-decoration: none; text-transform: uppercase; font-weight: 500;}
+.header-link.active { background: #0278F8; padding: 4px 12px; border-radius: 4px; font-weight: 700;}
+
+/* Novo Hero Banner */
+.hero-banner { 
+    margin-top: 0; 
+    width: 100%; 
+    position: relative; 
+}
+.chevron-down-btn {
+    width: 44px; height: 44px;
+    background: #0278F8;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    transform: translateY(50%); /* Overflow into next section */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    cursor: pointer; border: 3px solid #fff;
+}
+
+/* Palavra do Dia Flex */
+.home-section { padding: 50px 20px; }
+.palavra-home { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.palavra-home-left { 
+    font-size: 34px; line-height: 0.9; text-transform: uppercase; color: #0278F8; text-align: right; font-weight: 900;
+}
+.palavra-home-left span { font-size: 26px; font-weight: 300; display: block; text-transform: lowercase;}
+.palavra-home-card { 
+    background: #eef1f6; border-radius: 20px; padding: 30px; 
+    width: 100%; max-width: 480px; position: relative; border-top-right-radius: 6px;
+    font-size: 16px; color: #002759; font-weight: 500; font-style: italic; line-height: 1.4;
+}
+/* O detalhe curvo tipo bookmark na palavra do dia */
+.palavra-home-card::before {
+    content:''; position: absolute; top: -14px; right: 20px;
+    width: 30px; height: 40px; background: #fff; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+}
+.palavra-home-btn {
+    position: absolute; bottom: -18px; right: 20px;
+    background: #0278F8; color: #fff; border-radius: 20px; padding: 8px 16px;
+    font-size: 11px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 2px 8px rgba(2, 120, 248, 0.4);
+}
+
+/* Seção Cinza (Notícias + Instagram) */
+.section-gray { background: #e6e4dc; padding: 40px 20px; border-radius: 0;}
+.noticias-ig-flex { display: flex; gap: 30px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap;}
+.noticias-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; min-width: 500px;}
+.news-landscape {
+    position: relative; border-radius: 12px; overflow: hidden; height: 110px; background-size: cover; background-position: center; border: 2px solid #fff;
+    cursor: pointer; transition: transform 0.2s;
+}
+.news-landscape:hover { transform: scale(1.02); }
+.news-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,39,89, 0.9), transparent);
+    padding: 10px; padding-top: 30px; color: #fff; font-size: 10px; font-weight: 600; line-height: 1.2;
+}
+.blue-pill {
+    position: absolute; top: 10px; left: 10px; background: #0278F8; color: #fff; font-size: 9px; padding: 2px 8px; border-radius: 12px; font-weight: 700; text-transform: uppercase;
+}
+
+/* Instagram Carousel */
+.ig-carousel { display: flex; align-items: center; gap: 10px; }
+.ig-cards { display: flex; gap: 10px; overflow: hidden; }
+.ig-vertical { background: #fff; border-radius: 16px; width: 140px; padding: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+.ig-vertical-thumb { width: 100%; height: 180px; border-radius: 12px; background-size: cover; background-position: center; position: relative;}
+.ig-vertical-autor { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.ig-avatar { width: 18px; height: 18px; border-radius: 50%; background: #ccc; }
+.ig-nome { font-size: 9px; font-weight: 700; color: #333; }
+.ig-text { font-size: 8px; color: #666; margin-top: 6px; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;}
+.nav-arrow { width: 24px; height: 24px; border: 1px solid #999; color: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; background: transparent;}
+
+/* Seção de Vídeos */
+.entregas-grid { display: flex; max-width: 1200px; margin: 0 auto; gap: 30px; flex-wrap: wrap;}
+.entregas-left { display: flex; flex-direction: column; gap: 15px; width: 350px; }
+.entregas-right { flex: 1; min-width: 400px;}
+.entrega-dark-card { background: #002e77; border-radius: 12px; display: flex; overflow: hidden; color: #fff; align-items: center; gap: 15px; cursor: pointer;}
+.entrega-dark-img { width: 120px; height: 80px; background-size: cover; background-position: center; flex-shrink: 0;}
+.entrega-dark-text { font-size: 11px; padding: 10px 10px 10px 0; font-weight: 500; }
+.entrega-dark-pill { background: #0278F8; color: #fff; display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 10px; font-weight: bold; margin-bottom: 6px;}
+
+.video-main { background: #ccc; border-radius: 12px; height: 300px; margin-bottom: 15px; position: relative; display: flex; align-items: center; justify-content: center;}
+.video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.video-small { background: #ccc; border-radius: 12px; height: 140px; position: relative; display: flex; align-items: center; justify-content: center;}
+.play-btn-huge { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;}
+.play-btn-small { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;}
+.play-yellow { background: transparent; border: none; width: 0; height: 0; border-top: 15px solid transparent; border-left: 24px solid #ffcc00; border-bottom: 15px solid transparent; cursor:pointer;}
+.play-yellow-small { border-top: 10px solid transparent; border-left: 16px solid #ffcc00; border-bottom: 10px solid transparent; cursor:pointer;}
+
+/* Galeria Fotos */
+.galeria-header { text-align: center; color: #002e77; font-size: 16px; font-weight: 700; margin-bottom: 20px;}
+.galeria-flex { display: flex; align-items: center; gap: 15px; max-width: 1000px; margin: 0 auto;}
+.masonry { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 150px; gap: 10px; width: 100%;}
+.ms-item { background: #eee; border-radius: 12px; background-size: cover; background-position: center; border: 2px solid #fff;}
+.ms-hero { grid-column: span 2; grid-row: span 2; }
+.veja-todas-btn { display: block; margin: 30px auto 0; background: #0278F8; color: #fff; font-size: 13px; font-weight: 700; border: none; border-radius: 20px; padding: 10px 30px; cursor: pointer;}
+
+/* Footer repaginação */
+.footer-novo { background: #001a4d; padding: 40px; color: #fff; text-align: center;}
+
+/* ========================================================
+   REESTRUTURAÇÃO VISUAL: ENTREGAS BI (HOME / DASHBOARD)
+   ======================================================== */
+
+.bi-hero {
+    width: 100%;
+    position: relative;
+    margin-bottom: 30px;
+}
+.bi-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.bi-filter-container {
+    background: #EFEFEF;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+.bi-filter-header {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #1a1a18;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+.bi-filter-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.bi-select-wrapper {
+    flex: 1;
+    background: #fff;
+    border-radius: 6px;
+    padding: 0 12px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+}
+.bi-select-wrapper select {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 12px;
+    color: #555;
+    appearance: none;
+}
+.bi-btn-aplicar {
+    background: #002e77;
+    color: #fff;
+    font-weight: 700;
+    padding: 0 24px;
+    height: 40px;
+    border-radius: 6px;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.bi-active-filters {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #EFEFEF;
+    padding-bottom: 16px;
+}
+.bi-filter-tag {
+    background: #002e77;
+    color: #fff;
+    font-size: 10px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.bi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.bi-card {
+    background: #EFEFEF;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+.bi-card-pills {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+.bi-card-pill {
+    background: #0278F8;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+.bi-card-text {
+    font-size: 11px;
+    color: #333;
+    line-height: 1.4;
+    flex: 1;
+    margin-bottom: 12px;
+}
+.bi-card-date {
+    align-self: flex-end;
+    background: #ccc;
+    color: #fff;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.bi-analytics-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    border-bottom: 2px solid #EFEFEF;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+}
+.bi-analytics-box {
+    background: #EFEFEF;
+    border-radius: 12px;
+    padding: 20px;
+}
+.bi-analytics-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #002e77;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+.bi-analytics-title-cen {
+    font-size: 14px;
+    font-weight: 800;
+    color: #002e77;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.bi-bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 0;
+}
+.bi-bar-pill {
+    background: #0278F8;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 12px 0 0 12px;
+    min-width: 100px;
+    text-align: center;
+}
+.bi-bar-track {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+.bi-bar-fill {
+    background: #002e77;
+    color: #fff;
+    font-size: 10px;
+    padding: 6px 12px;
+    border-radius: 0 12px 12px 0;
+}
+
+@media (max-width: 900px) {
+    .bi-grid { grid-template-columns: repeat(2, 1fr); }
+    .bi-analytics-row { grid-template-columns: 1fr; }
+    .bi-filter-row { flex-direction: column; }
+    .news-top-layout { grid-template-columns: 1fr !important; gap: 20px !important; }
+    .news-title-col { text-align: center !important; }
+}
+@media (max-width: 600px) {
+    .bi-grid { grid-template-columns: 1fr; }
+    .news-grid-bottom { grid-template-columns: 1fr !important; }
+}
+
+/* ================== REPAGE NOTÍCIAS ================== */
+
+.news-redesign-wrapper {
+    width: 100%;
+}
+
+.news-top-half {
+    background-color: #E8EBEB; /* Off-white grayish */
+    width: 100%;
+    padding: 60px 20px;
+}
+
+.news-top-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 350px 180px 1fr;
+    gap: 0;
+    align-items: stretch;
+}
+
+.news-title-col {
+    color: #002759;
+    padding-right: 20px;
+}
+.news-title-1 {
+    font-size: 42px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+.news-title-2 {
+    font-size: 38px;
+    font-weight: 300;
+    line-height: 1;
+}
+.news-title-3 {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.news-filter-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #002759;
+}
+.news-filter-item {
+    cursor: pointer;
+    padding: 4px 16px;
+    border-radius: 20px;
+    transition: 0.2s;
+    width: fit-content;
+}
+.news-filter-item.active {
+    background-color: #002759;
+    color: #fff;
+}
+.news-filter-item:hover:not(.active) {
+    background-color: rgba(0, 39, 89, 0.1);
+}
+
+.news-hero-board {
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    min-height: 320px;
+}
+.news-hero-board:hover {
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+.news-hero-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+}
+.news-hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(0, 15, 36, 0.95) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+.news-hero-pill {
+    background-color: #0278F8;
+    color: #fff;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    align-self: flex-start;
+}
+.news-hero-title {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.news-bottom-half {
+    background-color: #fff;
+    width: 100%;
+    padding: 50px 20px;
+}
+.news-grid-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.news-standard-card {
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    min-height: 220px;
+    transition: 0.3s transform, 0.3s box-shadow;
+    display: block;
+}
+.news-standard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+.news-standard-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0, 15, 36, 0.9) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+}
+.news-standard-pill {
+    background-color: #0278F8;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    align-self: flex-start;
+}
+.news-standard-title {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+.news-pagination-row {
+    max-width: 1200px;
+    margin: 40px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+}
+.news-page-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+}
+.news-page-btn.active {
+    background-color: #0278F8;
+    color: white;
+}
+.news-page-btn.inactive {
+    background-color: #BDBDBD;
+    color: white;
+}
+.news-page-btn.inactive:hover {
+    background-color: #999;
+}
+.news-page-arrow {
+    background: transparent;
+    border: 1px solid #0278F8;
+    color: #0278F8;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 6px;
+}
+.news-page-arrow:hover {
+    background: #0278F8;
+    color: white;
+}
+
+/* ================== REPAGE PALAVRA DO DIA ================== */
+
+.palavra-redesign-wrapper {
+    width: 100%;
+    background-color: #fff;
+    padding: 60px 20px 80px 20px;
+}
+
+.palavra-top-layout {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+@media (max-width: 800px) {
+    .palavra-top-layout { flex-direction: column; align-items: center; text-align: center; }
+}
+
+.palavra-title-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: right;
+    min-width: 300px;
+}
+@media (max-width: 800px) {
+    .palavra-title-col { text-align: center; }
+}
+
+.palavra-title-light {
+    font-size: 52px;
+    font-weight: 300;
+    line-height: 1;
+    color: #4facfe; /* Light sharp blue */
+    letter-spacing: -1px;
+}
+.palavra-title-bold {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1;
+    color: #0278F8; /* Ibaneis Blue */
+}
+.palavra-title-date {
+    font-size: 16px;
+    color: #aaa;
+    margin-top: 10px;
+    font-weight: 500;
+    text-transform: lowercase;
+}
+
+.palavra-hero-card {
+    background-color: #0278F8;
+    border-radius: 12px;
+    color: #fff;
+    padding: 30px;
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
+    box-shadow: 0 10px 30px rgba(2, 120, 248, 0.2);
+}
+
+/* Fita Branca de Bookmark no Hero */
+.palavra-hero-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 25px;
+    width: 28px;
+    height: 48px;
+    background-color: #fff;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 75%, 0% 100%);
+}
+
+.palavra-hero-text {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    padding-right: 25px;
+}
+
+.palavra-hero-verse {
+    font-size: 11px;
+    font-weight: 600;
+    color: #e0f2fe;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 10px;
+}
+
+.palavra-share-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #001229; /* Navy almost black */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.palavra-share-btn:hover {
+    background-color: #333;
+}
+.palavra-share-icon {
+    width: 14px; height: 14px;
+    background: #fff;
+    color: #001229;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* Divisor horizontal */
+.palavra-divider {
+    max-width: 1200px;
+    height: 1px;
+    background-color: #E0E0E0;
+    margin: 40px auto;
+}
+
+.palavra-history-title {
+    text-align: center;
+    color: #002759;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.palavra-history-layout {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.palavra-history-card {
+    background-color: #EEEEEE;
+    border-radius: 12px;
+    padding: 25px 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.palavra-history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.palavra-history-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.palavra-book-icon {
+    width: 28px;
+    height: 28px;
+    background-color: #0278F8;
+    color: white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+.palavra-history-name {
+    color: #002759;
+    font-size: 18px;
+    font-weight: 600;
+}
+.palavra-history-datepill {
+    background-color: #fff;
+    color: #555;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+.palavra-history-text {
+    font-size: 22px;
+    font-weight: 400;
+    color: #111;
+    line-height: 1.3;
+    padding-left: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #001229; /* Rigida bottom border negra */
+}
+
+.palavra-history-verse {
+    font-size: 11px;
+    font-weight: 600;
+    color: #444;
+    padding-left: 40px;
+}
+
+/* ================== REPAGE SOBRE IBANEIS ================== */
+
+.sobre-redesign-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Faixa Branca Superior */
+.sobre-white-band {
+    background-color: #fff;
+    width: 100%;
+    padding: 60px 20px 40px 20px;
+}
+
+.sobre-top-layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+@media (max-width: 800px) {
+    .sobre-top-layout { flex-direction: column; }
+}
+
+.sobre-hero-img-left {
+    flex: 1;
+    min-height: 480px;
+    background-position: center top;
+    background-size: cover;
+    border-radius: 12px;
+}
+
+.sobre-hero-text-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sobre-title-light {
+    font-size: 40px;
+    font-weight: 300;
+    color: #4facfe;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+.sobre-title-bold {
+    font-size: 44px;
+    font-weight: 800;
+    color: #0278F8;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+.sobre-p {
+    font-size: 16px;
+    color: #222;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.sobre-mid-layout {
+    max-width: 1100px;
+    margin: 40px auto 0 auto;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+@media (max-width: 800px) {
+    .sobre-mid-layout { flex-direction: column-reverse; }
+}
+
+.sobre-mid-text-left {
+    flex: 1;
+}
+.sobre-mid-img-right {
+    flex: 1;
+    min-height: 300px;
+    border-radius: 20px;
+    background-position: center;
+    background-size: cover;
+}
+
+/* Faixa Cinza Inferior */
+.sobre-gray-band {
+    background-color: #E2E2E2;
+    width: 100%;
+    padding: 0 20px 80px 20px;
+    position: relative;
+    margin-top: 80px;
+}
+
+/* Card Trajetória Ponte */
+.sobre-trajetoria-card {
+    max-width: 1000px;
+    margin: -80px auto 60px auto;
+    display: flex;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    background: #0278F8;
+}
+@media (max-width: 800px) {
+    .sobre-trajetoria-card { flex-direction: column; }
+}
+.sobre-traj-img {
+    flex: 1.2;
+    min-height: 360px;
+    background-size: cover;
+    background-position: center left;
+    clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
+}
+@media (max-width: 800px) {
+    .sobre-traj-img { clip-path: none; min-height: 250px; }
+}
+.sobre-traj-text {
+    flex: 1;
+    padding: 40px 40px 40px 0;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+@media (max-width: 800px) {
+    .sobre-traj-text { padding: 30px; }
+}
+
+.sobre-traj-title {
+    font-size: 32px;
+    font-weight: 300;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1;
+}
+.sobre-traj-title span {
+    font-weight: 800;
+}
+.sobre-traj-p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #e0f2fe;
+    font-weight: 500;
+}
+
+/* Grid Linha do Tempo e Widgets */
+.sobre-bottom-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 60px;
+}
+@media (max-width: 900px) {
+    .sobre-bottom-grid { flex-direction: column; }
+}
+
+/* Linha do Tempo */
+.sobre-timeline-col {
+    flex: 6.5;
+}
+.sobre-section-title {
+    color: #002759;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+.s-timeline {
+    border-left: 2px solid #aaa;
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    position: relative;
+}
+.s-timeline-item {
+    position: relative;
+}
+.s-timeline-dot {
+    position: absolute;
+    left: -37px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    background-color: #555;
+    border-radius: 50%;
+}
+.s-timeline-year {
+    font-size: 18px;
+    font-weight: 800;
+    color: #002759;
+    margin-bottom: 8px;
+    line-height: 1;
+}
+.s-timeline-text {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+    font-weight: 500;
+}
+.s-timeline-text span.s-bold {
+    font-weight: 800;
+    color: #111;
+}
+
+/* Widgets Coluna Dir */
+.sobre-widgets-col {
+    flex: 3.5;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.s-widget {
+    border-radius: 16px;
+    padding: 30px 25px;
+    color: white;
+}
+.s-widget-light {
+    background-color: #0278F8;
+}
+.s-widget-dark {
+    background-color: #001C40;
+}
+.s-widget-title {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.s-widget-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.s-widget-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+.s-widget-list li::before {
+    content: '';
+    width: 12px;
+    height: 4px;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+/* Pílulas de TOP 5 */
+.s-widget-capsule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.s-widget-capsule {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    overflow: hidden;
+}
+.s-cap-left {
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.s-cap-right {
+    background-color: #fff;
+    color: #0278F8;
+    padding: 6px 12px;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 20px;
+}
+
+/* Redes Sociais */
+.s-social-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.s-social-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* ================== REPAGE POSTS ================== */
+
+.posts-redesign-wrapper {
+    width: 100%;
+    background-color: #fff;
+    padding: 60px 20px 80px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.posts-container {
+    width: 100%;
+    max-width: 650px;
+}
+
+/* Filtros Pill */
+.post-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.post-filter-pill {
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: #E6E4E0;
+    color: #999;
+    transition: 0.2s;
+    border: none;
+}
+
+.post-filter-pill:hover {
+    background-color: #d8d8d8;
+}
+
+.post-filter-pill.active {
+    background-color: #0278F8;
+    color: #fff;
+}
+
+/* Base Card do Post */
+.post-card {
+    background-color: #F1F2F4;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+/* Header do Post */
+.post-card-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 25px;
+}
+
+.post-card-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-right: 12px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #0278F8;
+}
+
+.post-card-source {
+    font-size: 16px;
+    font-weight: 800;
+    color: #002759;
+    flex: 1;
+}
+
+.post-card-date {
+    font-size: 10px;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: lowercase;
+}
+
+/* Imagem do Post */
+.post-card-img-container {
+    width: 100%;
+}
+
+.post-card-img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    display: block;
+}
+@media (max-width: 600px) {
+    .post-card-img { height: 220px; }
+}
+
+/* Corpo do Post */
+.post-card-body {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-card-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #002759;
+    line-height: 1.3;
+    margin-bottom: 5px;
+    padding-right: 120px; /* espaco pro botao */
+}
+@media (max-width: 600px) {
+    .post-card-title { padding-right: 0; margin-bottom: 20px; font-size: 16px; }
+}
+
+/* Botao Veja Completo */
+.post-btn-floating {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    background-color: #0278F8;
+    color: #fff;
+    font-size: 11px;
+    text-transform: lowercase;
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 8px 18px;
+    border: none;
+    cursor: pointer;
+}
+@media (max-width: 600px) {
+    .post-btn-floating { position: static; align-self: flex-end; }
+}

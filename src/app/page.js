@@ -4,6 +4,19 @@ import { useState, useEffect } from 'react';
 import { rawHTML } from './wireframe.js';
 import AIChatWidget from '@/components/AIChatWidget';
 
+// Mock de Base de Dados para Palavra do Dia
+const PALAVRAS_DUMMY = [
+  { id: 1, dateLabel: "hoje", date: "1 de abril de 2026", title: "Mensagem de hoje", ref: "Responsório Sl 68(69),8-10.21bcd-22.31 e 33-34 (R. 14cb)", text: "- Respondei-me pelo vosso imenso amor, neste tempo favorável, Senhor Deus." },
+  { id: 2, dateLabel: "ontem", date: "31 de março de 2026", title: "Mensagem de ontem", ref: "Responsório Sl 115(116B),12-13.15-16bc.17-18 (R. cf. 1Cor 10,16)", text: "- O cálice por nós abençoado é a nossa comunhão com o sangue do Senhor." },
+  { id: 3, dateLabel: "segunda", date: "30 de março de 2026", title: "Mensagem de segunda", ref: "Responsório Sl 30(31),2.6.12-13.15-16.17.25 (R. Lc 23,46)", text: "- Ó Pai, em tuas mãos eu entrego o meu espírito." },
+  { id: 4, dateLabel: "domingo", date: "29 de março de 2026", title: "Mensagem de domingo", ref: "Responsório Sl 21(22),8-9.17-18a.19-20.23-24 (R. 2a)", text: "- Meu Deus, meu Deus, por que me abandonastes?" },
+  { id: 5, dateLabel: "sábado", date: "28 de março de 2026", title: "Mensagem de sábado", ref: "Responsório Jeremias 31,10.11-12ab.13 (R. cf. 10d)", text: "- O Senhor nos guardará qual pastor a seu rebanho." },
+  { id: 6, dateLabel: "sexta", date: "27 de março de 2026", title: "Mensagem de sexta", ref: "Responsório Sl 17(18),2-3a.3bc-4.5-6.7 (R. cf. 7)", text: "- Ao Senhor eu invoquei na minha angústia e elevei o meu clamor." },
+  { id: 7, dateLabel: "quinta", date: "26 de março de 2026", title: "Mensagem de quinta", ref: "Responsório Sl 104(105),4-5.6-7.8-9 (R. 4a)", text: "- Buscai constantemente a face do Senhor!" },
+  { id: 8, dateLabel: "quarta", date: "25 de março de 2026", title: "Mensagem de quarta", ref: "Responsório Is 7,10-14; 8,10", text: "- Eis que a Virgem conceberá e dará à luz um filho." },
+  { id: 9, dateLabel: "terça", date: "24 de março de 2026", title: "Mensagem de terça", ref: "Responsório Sl 101(102),2-3.16-18.19-21 (R. 2)", text: "- Senhor, ouvi a minha oração, e o meu clamor chegue até vós!" }
+];
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState('home');
   const [chatOpen, setChatOpen] = useState(false);
@@ -14,12 +27,19 @@ export default function Home() {
   // Estados de Notícias
   const [noticias, setNoticias] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Todas');
+  const [newsPage, setNewsPage] = useState(1);
+  const [palavraPage, setPalavraPage] = useState(1);
+
+  // Estados de Posts
+  const [postsFilter, setPostsFilter] = useState('Todos');
+  const [postsPage, setPostsPage] = useState(1);
 
   // Estados de Entregas BI
   const [entregas, setEntregas] = useState([]);
   const [biFilterArea, setBiFilterArea] = useState('Todas');
   const [biFilterRegiao, setBiFilterRegiao] = useState('Todas');
   const [biFilterPeriodo, setBiFilterPeriodo] = useState('Todos');
+  const [biVisibleCards, setBiVisibleCards] = useState(18);
 
   // Bateria de imagens reais pr-selecionadas do site da Agencia (para Notícias e Entregas)
   const realMedia = {
@@ -59,23 +79,9 @@ export default function Home() {
       .then(r => r.json())
       .then(d => {
          if(d.posts && d.posts.length > 0) {
-            setIgPosts(d.posts.slice(0, 2));
+            setIgPosts(d.posts.slice(0, 3));
          } else {
-            // Posts reais mais recentes do @ibaneisoficial (fallback quando Apify não configurado)
-            setIgPosts([
-              {
-                url: 'https://www.instagram.com/reel/DW9AO3QROKy/',
-                caption: 'No DF, quem usa o transporte público economiza! #IbaneisRocha',
-                likesCount: 0,
-                commentsCount: 0
-              },
-              {
-                url: 'https://www.instagram.com/reel/DW6zjQUxt80/',
-                caption: 'Agora, o DF recebe grandes eventos que movimentam a economia e valorizam a cidade. #IbaneisRocha',
-                likesCount: 0,
-                commentsCount: 0
-              }
-            ]);
+            throw new Error("No apify data");
          }
       })
       .catch(() => {
@@ -84,14 +90,23 @@ export default function Home() {
           {
             url: 'https://www.instagram.com/reel/DW9AO3QROKy/',
             caption: 'No DF, quem usa o transporte público economiza! #IbaneisRocha',
-            likesCount: 0,
-            commentsCount: 0
+            likesCount: 1450,
+            commentsCount: 89,
+            thumbnail: 'https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FIBANEIS.FOTO.BURITI.jpg?alt=media&token=ab1e2c2e-194d-48b5-bafa-0d12e43eb703'
           },
           {
             url: 'https://www.instagram.com/reel/DW6zjQUxt80/',
             caption: 'Agora, o DF recebe grandes eventos que movimentam a economia e valorizam a cidade. #IbaneisRocha',
-            likesCount: 0,
-            commentsCount: 0
+            likesCount: 2310,
+            commentsCount: 154,
+            thumbnail: 'https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FIbaneis%20Rocha_02-05_Foto%20Renato%20Alves_Agencia%20Brasilia-27.jpg?alt=media&token=80b91012-706b-4e01-9a74-b52adfe7fef5'
+          },
+          {
+            url: 'https://www.instagram.com/reel/DW3HjQUxt80/',
+            caption: 'O progresso não para! Acompanhe as novas obras da gestão.',
+            likesCount: 980,
+            commentsCount: 45,
+            thumbnail: 'https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2F16262846933_349d997d44_w.jpg?alt=media&token=0b6e9c60-a292-4f35-9856-ccae5e6a9ee8'
           }
         ]);
       });
@@ -118,15 +133,45 @@ export default function Home() {
       if (domNode.attribs && domNode.attribs.class === 'nav-tabs') return <></>; 
       if (domNode.attribs && domNode.attribs.class === 'browser-bar') return <></>; 
       // Suprimir footer skeleton do wireframe (substituído pelo footer real de redes sociais)
-      if (domNode.attribs && domNode.attribs.class === 'footer') return <></>;
+      if (domNode.attribs && (domNode.attribs.class === 'footer' || domNode.attribs.class === 'footer-novo')) return <></>;
       
       // 2. Transpirar shell
       if (domNode.attribs && domNode.attribs.class === 'browser') {
         return <div style={{width:'100%', minHeight:'100vh'}}>{domToReact(domNode.children, options)}</div>;
       }
 
+      // 2.5 Interceptar Hero Banner da Home para adicionar botões clicáveis dinâmicos no React
+      if (domNode.attribs && domNode.attribs.class === 'hero-banner') {
+         return (
+             <div className="hero-banner" style={{position: 'relative', overflow: 'hidden'}}>
+                 <img src="https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FBanner%20home.png?alt=media&token=eae3b654-1e74-49d1-baca-b3a5484aa492" alt="Gestão Ibaneis" style={{width:'100%', height:'auto', display:'block'}} />
+                 {/* Botão invisível sobreposto ao texto 'Ver entregas' da arte geométrica! Mapeamento responsivo via % */}
+                 <button 
+                     onClick={() => setActiveTab('entregas')}
+                     title="Acessar Entregas (BI)"
+                     style={{
+                         position: 'absolute', 
+                         top: '75%', 
+                         left: '11%', 
+                         width: '26%', 
+                         height: '15%', 
+                         background: 'transparent', 
+                         border: 'none', 
+                         cursor: 'pointer', 
+                         zIndex: 20
+                     }}
+                 />
+                 {/* Chevron Button original */}
+                 <button className="chevron-down-btn" onClick={() => window.scrollTo({top: window.innerHeight, behavior: 'smooth'})} style={{position: 'absolute', bottom: '15px', left: '50%', transform: 'translateX(-50%)', zIndex: 10, background:'transparent', border:'none', color:'#fff', cursor:'pointer'}}>
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))'}}><polyline points="6 9 12 15 18 9"></polyline></svg>
+                 </button>
+             </div>
+         );
+      }
+
       // 3. Ativar o Menu Principal
-      if (domNode.attribs && domNode.attribs.class === 'nav-links') {
+      // 3. Substituir Links da Barra de Navegação
+      if (domNode.attribs && domNode.attribs.class === 'nav-links' || domNode.attribs && domNode.attribs.class === 'header-nav') {
         const tabs = [
           { id: 'home', label: 'Home' },
           { id: 'noticias', label: 'Notícias' },
@@ -135,19 +180,20 @@ export default function Home() {
           { id: 'palavra', label: 'Palavra do Dia' },
           { id: 'sobre', label: 'Sobre Ibaneis' }
         ];
-        return (
-          <div className="nav-links">
+         return (
+          <div className="header-nav">
             {tabs.map(tab => (
               <button 
                 key={tab.id}
-                className={`nav-link ${activeTab === tab.id ? 'ap' : ''}`}
+                className={`header-link ${activeTab === tab.id ? 'active' : ''}`}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
                 onClick={() => setActiveTab(tab.id)}
               >
                 {tab.label}
               </button>
             ))}
           </div>
-        );
+         );
       }
 
       // 3.5. Substituir a Logo
@@ -178,74 +224,91 @@ export default function Home() {
          );
       }
 
-      // 5. Substituir as caixas de "Posts Rápidos" ou "Social" pelo layout de Thread / Box arredondada sem o Thumbnail
-      if (domNode.attribs && domNode.attribs.class === 'post-rapido') {
-         const post = igPosts[igIdx] || null;
-         igIdx++;
-         return (
-             <div className="post-rapido-container" style={{borderRadius: 12, border: '1px solid #e0e0e0', background: '#FFF', marginBottom: 12, transition: 'box-shadow 0.2s', boxShadow: '0 2px 4px rgba(0,39,89,0.03)'}}>
-                 {post ? (
-                    <a href={post.url} target="_blank" rel="noreferrer" style={{textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', padding: 16}}>
-                        {/* Header: Avatar e Nome */}
-                        <div style={{display:'flex', alignItems:'center', marginBottom: 12}}>
-                            <img src="https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2Fibaneis%20foto%20de%20perfil.jpg?alt=media&token=f60d6e27-701e-48db-a907-0be7749a8dd4" alt="Ibaneis Rocha" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover', marginRight: 12 }} />
-                            <span style={{fontWeight: 700, fontSize: 13, color: '#002759'}}>Ibaneis Rocha</span>
-                            <span style={{color: '#888', fontSize: 11, marginLeft: 6}}>@ibaneisoficial</span>
-                        </div>
-                        
-                        {/* Body: Texto */}
-                        <p style={{fontSize: 13, color: '#444', marginBottom: 14, lineHeight: 1.5, minHeight: 40}}>
-                           {post.caption?.substring(0, 160)}{post.caption?.length > 160 ? '...' : ''}
-                        </p>
-                        
-                        {/* Footer: Ícones */}
-                        <div style={{display: 'flex', alignItems: 'center', gap: 16, borderTop: '1px solid #f0f0f0', paddingTop: 10}}>
-                            <div style={{display: 'flex', alignItems: 'center', gap: 6, color: '#999', fontSize: 12}}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                <span style={{fontWeight: 600}}>{post.likesCount || 0}</span>
-                            </div>
-                            <div style={{display: 'flex', alignItems: 'center', gap: 6, color: '#999', fontSize: 12}}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                                <span style={{fontWeight: 600}}>{post.commentsCount || 0}</span>
-                            </div>
-                        </div>
-                    </a>
-                 ) : (
-                    <div style={{display: 'flex', alignItems: 'center', padding: 24, paddingLeft: 16}}>
-                       <div style={{width: 32, height: 32, borderRadius: '50%', background: '#eee', marginRight: 12}}></div>
-                       <div style={{flex: 1}}>
-                           <div style={{height: 12, background: '#eee', width: '60%', marginBottom: 8, borderRadius: 4}}></div>
-                           <div style={{height: 12, background: '#eee', width: '40%', borderRadius: 4}}></div>
-                       </div>
-                    </div>
-                 )}
-             </div>
-         );
+      // 5. Renderizar Instagram dinâmico no novo formato vertical (.ig-vertical)
+      if (domNode.attribs && domNode.attribs.id === 'ig-posts-destaque') {
+         if (igPosts.length > 0) {
+             return (
+                 <div className="ig-cards" id="ig-posts-destaque">
+                     {igPosts.slice(0, 3).map((post, idx) => {
+                         const thumb = post.displayUrl || post.thumbnail || 'https://placehold.co/140x200';
+                         return (
+                         <a href={post.url} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
+                             <div className="ig-vertical">
+                                 <div className="ig-vertical-thumb" style={{
+                                     backgroundImage: `url(${thumb})`
+                                 }}></div>
+                                 <div className="ig-vertical-autor">
+                                     <img src="https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2Fibaneis%20foto%20de%20perfil.jpg?alt=media&token=f60d6e27-701e-48db-a907-0be7749a8dd4" alt="Ibaneis Rocha" style={{ width: 18, height: 18, borderRadius: '50%', objectFit: 'cover' }} />
+                                     <div className="ig-nome">IbaneisOficial</div>
+                                 </div>
+                                 <div className="ig-text">
+                                     {post.caption?.substring(0, 80)}{post.caption?.length > 80 ? '...' : ''}
+                                 </div>
+                             </div>
+                         </a>
+                         );
+                     })}
+                 </div>
+             );
+         }
+      }
+
+      // 5.1 Renderizar YouTube vídeos dinâmicos no Home
+      if (domNode.attribs && domNode.attribs.id === 'video-destaque-container') {
+         if (videos.length >= 3) {
+             const vMain = videos[0];
+             const vSide1 = videos[1];
+             const vSide2 = videos[2];
+
+             const getBg = (v) => v.domain === 'youtube.com' || v.url?.includes('youtube') 
+                ? `url(https://img.youtube.com/vi/${v.url.split('v=')[1]?.split('&')[0]}/maxresdefault.jpg)`
+                : `url(https://placehold.co/600x300)`;
+
+             return (
+                 <div className="entregas-right" id="video-destaque-container">
+                     <a href={vMain.url} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}}>
+                         <div className="video-main" style={{ backgroundImage: getBg(vMain), backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                             <div className="play-btn-huge"><div className="play-yellow"></div></div>
+                             <div className="news-overlay" style={{background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)'}}>{vMain.title}</div>
+                         </div>
+                     </a>
+                     <div className="video-grid">
+                         <a href={vSide1.url} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}}>
+                             <div className="video-small" style={{ backgroundImage: getBg(vSide1), backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                                  <div className="play-btn-small"><div className="play-yellow-small"></div></div>
+                             </div>
+                         </a>
+                         <a href={vSide2.url} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}}>
+                             <div className="video-small" style={{ backgroundImage: getBg(vSide2), backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                                  <div className="play-btn-small"><div className="play-yellow-small"></div></div>
+                             </div>
+                         </a>
+                     </div>
+                 </div>
+             )
+         }
       }
 
       // 5.5 Renderizar noticias dinâmicas (HOME)
       if (domNode.attribs && domNode.attribs.id === 'noticias-destaque') {
           if (noticias.length > 0) {
               return (
-                  <div className="g3" style={{marginBottom: 8}} id="noticias-destaque">
-                      {noticias.slice(0, 3).map((noticia, idx) => (
-                          <div className="card" key={idx}>
-                              <a href={noticia.link} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}}>
-                                  <div className="card-thumb" style={{
-                                      backgroundImage: `url(${noticia.img})`,
-                                      backgroundSize: 'cover',
-                                      backgroundPosition: 'center',
-                                      height: 90
-                                  }}></div>
-                                  <div className="card-body">
-                                      <div className="tag">{noticia.area || noticia.tag || 'Destaque'}</div>
-                                      <div style={{fontSize: 10, fontWeight: 600, lineHeight: 1.3, color: '#333'}}>
-                                          {noticia.text}
-                                      </div>
+                  <div className="noticias-grid" id="noticias-destaque">
+                      {noticias.slice(0, 4).map((noticia, idx) => {
+                          const bgImage = noticia.img || realMedia.noticias[idx % realMedia.noticias.length];
+                          return (
+                          <a href={noticia.link} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
+                              <div className="news-landscape" style={{
+                                  backgroundImage: `url(${bgImage})`
+                              }}>
+                                  <div className="blue-pill">{noticia.area || noticia.tag || 'Destaque'}</div>
+                                  <div className="news-overlay">
+                                      {noticia.text || noticia.title}
                                   </div>
-                              </a>
-                          </div>
-                      ))}
+                              </div>
+                          </a>
+                          );
+                      })}
                   </div>
               );
           }
@@ -255,17 +318,14 @@ export default function Home() {
       if (domNode.attribs && domNode.attribs.id === 'entregas-destaque') {
           if (noticias.length > 3) {
               return (
-                 <div style={{display:'flex', flexDirection:'column', gap: 6}} id="entregas-destaque">
+                 <div className="entregas-left" id="entregas-destaque">
                       {noticias.slice(3, 6).map((entrega, idx) => (
                           <a href={entrega.link} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
-                              <div className="entrega-card">
-                                  <div className="tag">Destaque</div>
-                                  <div style={{fontSize: 11, fontWeight: 600, color: '#222', lineHeight: 1.2, margin: '4px 0'}}>
+                              <div className="entrega-dark-card">
+                                  <div className="entrega-dark-img" style={{ backgroundImage: `url(${entrega.img})` }}></div>
+                                  <div className="entrega-dark-text">
+                                      <div className="entrega-dark-pill">{entrega.area || 'Destaque'}</div><br/>
                                       {entrega.text}
-                                  </div>
-                                  <div className="city-row">
-                                      <div className="city-dot"></div>
-                                      <span style={{fontSize: 9, color: '#777'}}>Todo o DF</span>
                                   </div>
                               </div>
                           </a>
@@ -275,93 +335,482 @@ export default function Home() {
           }
       }
 
-      // 5.7 Renderizar Filtros Dinâmicos
-      // 5.7 Notícia destaque hero (topo da página Notícias)
-      if (domNode.attribs && domNode.attribs.id === 'noticias-destaque-hero') {
-          if (noticias.length > 0) {
-              const hero = noticias[0];
-              return (
-                  <a href={hero.link} target="_blank" rel="noreferrer"
-                      style={{textDecoration:'none', color:'inherit', display:'block'}} id="noticias-destaque-hero">
-                      <div className="card" style={{display:'grid', gridTemplateColumns:'190px 1fr', marginBottom:12}}>
-                          <div style={{
-                              backgroundImage: `url(${hero.img})`,
-                              backgroundSize: 'cover',
-                              backgroundPosition: 'center',
-                              minHeight:110, borderRadius:'7px 0 0 7px', position:'relative'
-                          }}>
-                          </div>
-                          <div style={{padding:14}}>
-                              <div className="tag">{hero.area}</div>
-                              <div style={{fontSize:16, fontWeight:800, lineHeight:1.2, color:'#1a1a18', marginBottom:8}}>{hero.text}</div>
-                              <div style={{fontSize:11, color:'#555', lineHeight:1.4}}>{hero.date}</div>
-                          </div>
-                      </div>
-                  </a>
-              );
-          }
-      }
-
-      // 5.7 comentário removido - continuação abaixo
-      // 5.DX Renderizar Filtros Dinâmicos (usa campo 'area' que é o que o JSON de entregas retorna)
-      if (domNode.attribs && domNode.attribs.id === 'noticias-filtros') {
+      // ======================================
+      // 5.7 NOVO COMPONENTE: NOTÍCIAS REDESIGN
+      // ======================================
+      if (domNode.attribs && domNode.attribs.class === 'news-redesign-container') {
           const getTag = (n) => n.area || n.tag;
           const categorias = ['Todas', ...new Set(noticias.map(n => getTag(n)).filter(Boolean))];
+          const filteredNews = selectedCategory === 'Todas' ? noticias : noticias.filter(n => getTag(n) === selectedCategory);
+          
+          if (filteredNews.length === 0) return <div style={{padding:40, textAlign:'center'}}>Nenhuma notícia.</div>;
+
+          // O Primeiro item no array filtrado vira o Destaque Master.
+          const destaque = filteredNews[0];
+          // O resto forma a grade inferior paginada
+          const gridNews = filteredNews.slice(1);
+          const ITEMS_PER_PAGE = 6;
+          const totalPages = Math.ceil(gridNews.length / ITEMS_PER_PAGE);
+          
+          // Se de alguma forma o usuário mudou de categoria e a página atual exceder o limite, ajustamos (proteção React)
+          const safePage = Math.min(newsPage, Math.max(1, totalPages));
+          const currentPageNews = gridNews.slice((safePage - 1) * ITEMS_PER_PAGE, safePage * ITEMS_PER_PAGE);
+
+          // Função para formatar o Título do Destaque de forma inteligente
           return (
-              <div style={{display:'flex', gap: 6, flexWrap:'wrap', marginBottom: 14}} id="noticias-filtros">
-                  {categorias.map((cat, idx) => {
-                      const count = cat === 'Todas' ? noticias.length : noticias.filter(n => getTag(n) === cat).length;
-                      const isActive = selectedCategory === cat;
-                      return (
-                          <div
-                              key={idx}
-                              onClick={() => setSelectedCategory(cat)}
-                              style={{
-                                  padding: '4px 12px',
-                                  fontSize: 10,
-                                  borderRadius: 12,
-                                  cursor: 'pointer',
-                                  fontWeight: 700,
-                                  color: isActive ? '#fff' : '#444',
-                                  background: isActive ? '#0278F8' : '#e0dfd9',
-                                  transition: '0.2s'
-                              }}
-                          >
-                              {cat} ({count})
+              <div style={{display:'flex', flexDirection:'column', width:'100%'}}>
+                  {/* METADE SUPERIOR (OFF-WHITE) */}
+                  <div className="news-top-half">
+                      <div className="news-top-layout">
+                          
+                          {/* Coluna 1: Títulos Gigantes */}
+                          <div className="news-title-col">
+                              <div className="news-title-1">ACOMPANHE</div>
+                              <div className="news-title-2">as ÚLTIMAS</div>
+                              <div className="news-title-3">NOTÍCIAS:</div>
                           </div>
-                      );
-                  })}
+
+                          {/* Coluna 2: Menu Principal Vertical */}
+                          <div className="news-filter-col">
+                              {categorias.map((cat, idx) => {
+                                  const isActive = selectedCategory === cat;
+                                  return (
+                                      <div 
+                                          key={idx} 
+                                          className={`news-filter-item ${isActive ? 'active' : ''}`}
+                                          onClick={() => { setSelectedCategory(cat); setNewsPage(1); }}
+                                      >
+                                          {cat}
+                                      </div>
+                                  );
+                              })}
+                          </div>
+
+                          {/* Coluna 3: Hero Card (Destaque Principal) */}
+                          <a href={destaque.link || '#'} target="_blank" rel="noreferrer" style={{textDecoration:'none', display:'block'}}>
+                              <div className="news-hero-board">
+                                  <div className="news-hero-bg" style={{backgroundImage: `url(${realMedia.noticias[0]})`}}></div>
+                                  <div className="news-hero-overlay">
+                                      <div className="news-hero-pill">Destaque</div>
+                                      <div className="news-hero-title">{destaque.text || destaque.title}</div>
+                                  </div>
+                              </div>
+                          </a>
+
+                      </div>
+                  </div>
+
+                  {/* METADE INFERIOR (BRANCO PURO) */}
+                  <div className="news-bottom-half">
+                      
+                      {/* Grid de Cartões Menores */}
+                      <div className="news-grid-bottom">
+                          {currentPageNews.map((noticia, idx) => {
+                              const imgIndex = ((safePage - 1) * ITEMS_PER_PAGE) + idx + 1; // +1 to offset Destaque
+                              return (
+                                  <a href={noticia.link} target="_blank" rel="noreferrer" style={{textDecoration:'none'}} key={idx}>
+                                      <div className="news-standard-card">
+                                          <div className="news-hero-bg" style={{backgroundImage: `url(${realMedia.noticias[imgIndex % realMedia.noticias.length]})`}}></div>
+                                          <div className="news-standard-overlay">
+                                              <div className="news-standard-pill">{getTag(noticia) || 'Geral'}</div>
+                                              <div className="news-standard-title">{noticia.text || noticia.title}</div>
+                                          </div>
+                                      </div>
+                                  </a>
+                              );
+                          })}
+                      </div>
+
+                      {/* Paginação */}
+                      {totalPages > 1 && (
+                          <div className="news-pagination-row">
+                              {/* Gerar blocos de páginas */}
+                              {Array.from({length: totalPages}, (_, i) => i + 1).map(page => (
+                                  <button 
+                                      key={page}
+                                      className={`news-page-btn ${page === safePage ? 'active' : 'inactive'}`}
+                                      onClick={() => setNewsPage(page)}
+                                  >
+                                      {page}
+                                  </button>
+                              ))}
+                              
+                              {/* Botão Próximo */}
+                              {safePage < totalPages && (
+                                  <button className="news-page-arrow" onClick={() => setNewsPage(safePage + 1)}>
+                                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                  </button>
+                              )}
+                          </div>
+                      )}
+                  </div>
+              </div>
+          );
+      }      // ======================================
+      // 5.8 NOVO COMPONENTE: PALAVRA DO DIA REDESIGN
+      // ======================================
+      if (domNode.attribs && domNode.attribs.class === 'palavra-redesign-container') {
+          if (PALAVRAS_DUMMY.length === 0) return <div style={{padding:40, textAlign:'center'}}>Nenhuma mensagem hoje.</div>;
+
+          const destaque = PALAVRAS_DUMMY[0];
+          const gridPalavras = PALAVRAS_DUMMY.slice(1);
+          const ITEMS_PER_PAGE = 4;
+          const totalPages = Math.ceil(gridPalavras.length / ITEMS_PER_PAGE);
+          
+          const safePage = Math.min(palavraPage, Math.max(1, totalPages));
+          const currentPalavras = gridPalavras.slice((safePage - 1) * ITEMS_PER_PAGE, safePage * ITEMS_PER_PAGE);
+
+          return (
+              <div className="palavra-redesign-wrapper">
+                  
+                  {/* Hero Superior */}
+                  <div className="palavra-top-layout">
+                      <div className="palavra-title-col">
+                          <div className="palavra-title-light">Mensagem</div>
+                          <div className="palavra-title-light">de <span className="palavra-title-bold">HOJE</span></div>
+                          <div className="palavra-title-date">{destaque.dateLabel} · {destaque.date}</div>
+                      </div>
+                      
+                      <div className="palavra-hero-card">
+                          <div>
+                              <div className="palavra-hero-text">{destaque.text}</div>
+                              <div className="palavra-hero-verse">{destaque.ref}</div>
+                          </div>
+                          <button className="palavra-share-btn" onClick={() => console.log('Share clicked:', destaque.id)}>
+                              Compartilhar
+                              <div className="palavra-share-icon">
+                                  <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3l7 7-7 7v-4h-2c-3.31 0-6 2.69-6 6v1H4v-1c0-4.96 4.04-9 9-9h1V3z"/></svg>
+                              </div>
+                          </button>
+                      </div>
+                  </div>
+
+                  <div className="palavra-divider"></div>
+
+                  {/* Histórico Abaixo */}
+                  <div className="palavra-history-title">Mensagens Anteriores</div>
+                  
+                  <div className="palavra-history-layout">
+                      {currentPalavras.map((palavra, idx) => (
+                          <div className="palavra-history-card" key={idx}>
+                              <div className="palavra-history-header">
+                                  <div className="palavra-history-left">
+                                      {/* Icone de livro com cruz branca simpático */}
+                                      <div className="palavra-book-icon">
+                                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M12 5v6"></path><path d="M10 7h4"></path></svg>
+                                      </div>
+                                      <div className="palavra-history-name">{palavra.title}</div>
+                                  </div>
+                                  <div className="palavra-history-datepill">{palavra.date}</div>
+                              </div>
+                              
+                              <div className="palavra-history-text">{palavra.text}</div>
+                              <div className="palavra-history-verse">{palavra.ref}</div>
+
+                              <button className="palavra-share-btn" onClick={() => console.log('Share clicked:', palavra.id)}>
+                                  Compartilhar
+                                  <div className="palavra-share-icon">
+                                      <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3l7 7-7 7v-4h-2c-3.31 0-6 2.69-6 6v1H4v-1c0-4.96 4.04-9 9-9h1V3z"/></svg>
+                                  </div>
+                              </button>
+                          </div>
+                      ))}
+                  </div>
+
+                  {/* Paginação */}
+                  {totalPages > 1 && (
+                      <div className="news-pagination-row" style={{marginTop: '40px'}}>
+                          {Array.from({length: totalPages}, (_, i) => i + 1).map(page => (
+                              <button 
+                                  key={page}
+                                  className={`news-page-btn ${page === safePage ? 'active' : 'inactive'}`}
+                                  onClick={() => setPalavraPage(page)}
+                              >
+                                  {page}
+                              </button>
+                          ))}
+                          
+                          {safePage < totalPages && (
+                              <button className="news-page-arrow" onClick={() => setPalavraPage(safePage + 1)}>
+                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                              </button>
+                          )}
+                      </div>
+                  )}
+
+              </div>
+          );
+      }
+      
+      // ======================================
+      // 5.9 NOVO COMPONENTE: SOBRE IBANEIS REDESIGN
+      // ======================================
+      if (domNode.attribs && domNode.attribs.class === 'sobre-redesign-container') {
+          
+          const timeline = [
+              { year: "1971", title: "Nasci em Brasília, no Hospital de Base, filho de pais piauienses.", spanText: "Nasci em Brasília," },
+              { year: "Infância (anos 70/80)", title: "Cresci no interior do Piauí e me fixei em Corrente aos 8 anos, onde estudei e comecei a trabalhar ainda jovem.", spanText: "Infância (anos 70/80) —" },
+              { year: "Anos 1980", title: "Concluí meus estudos em Corrente e trabalhei como feirante, empacotador e comerciante." },
+              { year: "1986", title: "Voltei a Brasília, aos 15 anos, para estudar, morando com familiares em Sobradinho." },
+              { year: "Anos 1990", title: "Me formei em Direito pelo UniCeub, fiz pós-graduação em São Paulo e abri meu escritório de advocacia na capital." },
+              { year: "Anos 2000", title: "Consolidei minha carreira como advogado, atuando em diversas áreas do serviço público." },
+              { year: "2007–2010", title: "Atuei na OAB nacional como secretário-geral da Comissão de Prerrogativas." },
+              { year: "2008–2009", title: "Fui vice-presidente da OAB-DF." },
+              { year: "2013–2015", title: "Tive a honra de presidir a OAB-DF." },
+              { year: "2016–2019", title: "Atuei como diretor do Conselho Federal da OAB e corregedor-geral." },
+              { year: "2018", title: "Após mais de 25 anos na advocacia, entrei na política e fui eleito governador do Distrito Federal." },
+              { year: "2019", title: "Assumi o Governo do DF e iniciei um ciclo de transformações na nossa capital." },
+              { year: "2020–2021", title: "Enfrentei a pandemia, ampliamos a rede de saúde, abrimos leitos, fortalecemos programas sociais e levamos apoio às famílias do DF." },
+              { year: "2022", title: "Fui reeleito em primeiro turno, com o reconhecimento da população pelo trabalho realizado." },
+              { year: "2023 – 2025", title: "Avançamos em obras, programas sociais e grandes projetos, para fortalecer o desenvolvimento do DF." },
+              { year: "2026", title: "Encerro meu ciclo no Governo do Distrito Federal, com a sensação de dever cumprido e a certeza de ter deixado um DF mais organizado, moderno e melhor para a população." }
+          ];
+
+          return (
+              <div className="sobre-redesign-wrapper">
+                  
+                  <div className="sobre-white-band">
+                      {/* Faixa Branca Superior */}
+                      <div className="sobre-top-layout">
+                          <div className="sobre-hero-img-left" style={{backgroundImage: "url('https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FIBANEIS.FOTO.BURITI.jpg?alt=media&token=ab1e2c2e-194d-48b5-bafa-0d12e43eb703')"}}></div>
+                          <div className="sobre-hero-text-right">
+                              <div className="sobre-title-light">Conheça mais</div>
+                              <div className="sobre-title-light">um pouco</div>
+                              <div className="sobre-title-bold">Sobre Mim</div>
+                              
+                              <div className="sobre-p">Assumimos o Distrito Federal em 2018 com desafios e colocamos como prioridade organizar a gestão e transformar projetos em resultados concretos para a população.</div>
+                              <div className="sobre-p">Com foco na integração entre as áreas e desenvolvimento econômico, avançamos na modernização da cidade, ampliamos investimentos, fortalecemos o ambiente de negócios e aumentamos a capacidade de arrecadação do DF.</div>
+                          </div>
+                      </div>
+
+                      {/* Faixa Branca Central */}
+                      <div className="sobre-mid-layout">
+                          <div className="sobre-mid-text-left">
+                              <div className="sobre-p" style={{color:'#555',fontWeight:400}}>Entre os principais marcos, destacam-se grandes obras de infraestrutura e mobilidade, urbanização de regiões como Vicente Pires e Sol Nascente/Pôr do Sol, investimentos em saneamento e qualidade de vida, além da renovação da frota de ônibus e expansão de programas sociais que chegaram a quem mais precisa. Como o Cartão Gás e DF Social.</div>
+                              <div className="sobre-p" style={{color:'#555',fontWeight:400}}>O resultado é uma gestão marcada por obras e políticas públicas que mudaram a cidade e melhoraram a vida da população.</div>
+                          </div>
+                          <div className="sobre-mid-img-right" style={{backgroundImage: "url('https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FNOSSO.NATAL.RESTAURANTE.jpg?alt=media&token=f659992a-5470-4d7a-bf32-8e30aacf07f1')"}}></div>
+                      </div>
+                  </div>
+
+                  <div className="sobre-gray-band">
+                      {/* Cartão Trajetória Cruzando Faixas */}
+                      <div className="sobre-trajetoria-card">
+                          <div className="sobre-traj-img" style={{backgroundImage: "url('https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FIBANEIS.ABRA%C3%87O.jpg?alt=media&token=9aea591c-9d69-448f-8a5a-9e06e885d049')"}}></div>
+                          <div className="sobre-traj-text">
+                              <div className="sobre-traj-title">MINHA <span>TRAJETÓRIA</span></div>
+                              <div className="sobre-traj-p">Sou advogado nascido em Brasília, e tive a honra de ser o primeiro brasiliense a governar o Distrito Federal. Fui eleito em 2018 e reeleito em 2022, cumprindo dois mandatos à frente do DF entre 2019 e 2026, sempre com o compromisso de trabalhar pela população e mudar a nossa capital.</div>
+                          </div>
+                      </div>
+
+                      <div className="sobre-bottom-grid">
+                          {/* Coluna Esq: Linha do Tempo */}
+                          <div className="sobre-timeline-col">
+                              <div className="sobre-section-title">Linha Do Tempo</div>
+                              <div className="s-timeline">
+                                  {timeline.map((item, idx) => (
+                                      <div className="s-timeline-item" key={idx}>
+                                          <div className="s-timeline-dot"></div>
+                                          <div className="s-timeline-year">{item.year}</div>
+                                          <div className="s-timeline-text">
+                                              {item.spanText ? <span><span className="s-bold">{item.spanText}</span> {item.title.replace(item.spanText, '').trim()}</span> : <span>{item.title}</span>}
+                                          </div>
+                                      </div>
+                                  ))}
+                              </div>
+                          </div>
+
+                          {/* Coluna Dir: Widgets de Dados */}
+                          <div className="sobre-widgets-col">
+                              {/* W1: Resultados em Números */}
+                              <div className="s-widget s-widget-light">
+                                  <div className="s-widget-title">Resultados Em Números</div>
+                                  <ul className="s-widget-list">
+                                      <li>13 escolas</li>
+                                      <li>11 viadutos</li>
+                                      <li>7 Upas</li>
+                                      <li>6 rodoviárias</li>
+                                      <li>4 restaurantes comunitários</li>
+                                      <li>27 creches</li>
+                                      <li>14 mil moradias</li>
+                                  </ul>
+                              </div>
+                              
+                              {/* W2: Principais Ações */}
+                              <div className="s-widget s-widget-dark">
+                                  <div className="s-widget-title" style={{color:'#fff'}}>Nossas Principais Ações</div>
+                                  <ul className="s-widget-list" style={{color:'#fff'}}>
+                                      <li>Túnel de Taguatinga</li>
+                                      <li>Vai de Graça</li>
+                                      <li>Drenar DF</li>
+                                      <li>UnDF</li>
+                                      <li>Delegacias 24h</li>
+                                      <li>Almoço por R$ 1</li>
+                                      <li>Teatro Nacional</li>
+                                      <li>RenovaDF</li>
+                                      <li>Cartão Gás</li>
+                                      <li>Cartão Uniforme Escolar</li>
+                                      <li>Cartão Material Escolar</li>
+                                  </ul>
+                              </div>
+
+                              {/* W3: Top 5 RAAs */}
+                              <div className="s-widget s-widget-light">
+                                  <div className="s-widget-title">Top 5 RAs Com Maior Investimento</div>
+                                  <div className="s-widget-capsule-list">
+                                      <div className="s-widget-capsule">
+                                          <div className="s-cap-left">Plano Piloto</div><div className="s-cap-right">R$ 1.155.996.160,31</div>
+                                      </div>
+                                      <div className="s-widget-capsule">
+                                          <div className="s-cap-left">Vicente Pires</div><div className="s-cap-right">R$ 572.329.562,56</div>
+                                      </div>
+                                      <div className="s-widget-capsule">
+                                          <div className="s-cap-left">Taguatinga</div><div className="s-cap-right">R$ 503.308.319,90</div>
+                                      </div>
+                                      <div className="s-widget-capsule">
+                                          <div className="s-cap-left">Ceilândia</div><div className="s-cap-right">R$ 270.718.424,34</div>
+                                      </div>
+                                      <div className="s-widget-capsule">
+                                          <div className="s-cap-left">Lago Norte</div><div className="s-cap-right">R$ 268.003.571,86</div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              {/* W4: Redes Sociais */}
+                              <div className="s-widget s-widget-dark">
+                                  <div className="s-widget-title" style={{color:'#fff'}}>Acompanhe Mais Nas Redes Sociais</div>
+                                  <div className="s-social-grid">
+                                      <div className="s-social-icon">IG</div>
+                                      <div className="s-social-icon">f</div>
+                                      <div className="s-social-icon">X</div>
+                                      <div className="s-social-icon">T</div>
+                                      <div className="s-social-icon">Tk</div>
+                                      <div className="s-social-icon">YT</div>
+                                      <div className="s-social-icon">in</div>
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
               </div>
           );
       }
 
-      // 5.8 Renderizar Lista de Notícias (PÁGINA DE NOTÍCIAS) com Filtro
-      if (domNode.attribs && domNode.attribs.id === 'noticias-lista') {
-          const getTag = (n) => n.area || n.tag;
-          const filteredNews = selectedCategory === 'Todas' ? noticias : noticias.filter(n => getTag(n) === selectedCategory);
-          if (filteredNews.length > 0) {
-              return (
-                  <div className="g3" style={{marginBottom: 8}} id="noticias-lista">
-                      {filteredNews.map((noticia, idx) => (
-                          <a href={noticia.link} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} className="card" key={idx}>
-                              <div className="card-thumb" style={{
-                                  backgroundImage: `url(${noticia.img})`,
-                                  backgroundSize: 'cover',
-                                  backgroundPosition: 'center'
-                              }}></div>
-                              <div className="card-body">
-                                  <div className="tag">{getTag(noticia)}</div>
-                                  <div style={{fontSize: 10, fontWeight: 600, lineHeight: 1.3, color: '#333'}}>
-                                      {noticia.text}
+      // ======================================
+      // 5.10 NOVO COMPONENTE: POSTS REDESIGN
+      // ======================================
+      if (domNode.attribs && domNode.attribs.class === 'posts-redesign-container') {
+          const POSTS_DUMMY = [
+              { 
+                  id: 1, 
+                  source: "R7 Brasília", 
+                  sourceAcronym: "R7",
+                  date: "28 de março de 2026", 
+                  title: "Ibaneis assina renúncia ao governo do DF para concorrer ao Senado", 
+                  img: "https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FIBANEIS.FOTO.BURITI.jpg?alt=media&token=ab1e2c2e-194d-48b5-bafa-0d12e43eb703", 
+                  category: "Senado",
+                  url: "https://noticias.r7.com/brasilia/ibaneis-assina-renuncia-ao-governo-do-df-para-concorrer-ao-senado-28032026/"
+              },
+              { 
+                  id: 2, 
+                  source: "GPS Brasília", 
+                  sourceAcronym: "GPS",
+                  date: "09 de abril de 2026", 
+                  title: "Ibaneis Rocha retoma carteira da OAB e sinaliza candidatura ao Senado com discurso de diálogo", 
+                  img: "https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FIbaneis.12.jpg?alt=media&token=c19f56e0-05de-4d7e-abf6-a36fd4cd3b51", 
+                  category: "Política",
+                  url: "https://gpsbrasilia.com.br/ibaneis-carteira-oab-candidatura-senado/"
+              },
+              { 
+                  id: 3, 
+                  source: "Metrópoles", 
+                  sourceAcronym: "Met",
+                  date: "27 de março de 2026", 
+                  title: "Ibaneis diz que deixa GDF com \"sensação de missão cumprida\", fala sobre eleições e crise do BRB.", 
+                  img: "https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FMetropoles.Posse.jpg?alt=media&token=68a2bf62-3fc4-47fd-8bb0-07bf11c2a11b", 
+                  category: "Brasília",
+                  url: "https://www.metropoles.com/colunas/grande-angular/ibaneis-diz-que-deixa-gdf-com-sensacao-de-missao-cumprida-fala-sobre-eleicoes-e-crise-do-brb"
+              }
+          ];
+
+          const filteredPosts = postsFilter === 'Todos' 
+              ? POSTS_DUMMY 
+              : POSTS_DUMMY.filter(p => p.category === postsFilter);
+
+          // Pagination logic
+          const POSTS_PER_PAGE = 3;
+          const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE) || 1;
+          const safePage = Math.min(postsPage, Math.max(1, totalPages));
+          const currentPosts = filteredPosts.slice((safePage - 1) * POSTS_PER_PAGE, safePage * POSTS_PER_PAGE);
+
+          const filters = ['Todos', 'Política', 'Brasília', 'Senado', 'Educação'];
+
+          return (
+              <div className="posts-redesign-wrapper">
+                  <div className="posts-container">
+                      
+                      {/* Bateria de Filtros */}
+                      <div className="post-filters">
+                          {filters.map(filter => (
+                              <button 
+                                  key={filter} 
+                                  className={`post-filter-pill ${postsFilter === filter ? 'active' : ''}`}
+                                  onClick={() => { setPostsFilter(filter); setPostsPage(1); }}
+                              >
+                                  {filter}
+                              </button>
+                          ))}
+                      </div>
+
+                      {/* Lista de Posts (Cards) */}
+                      <div>
+                          {currentPosts.map(post => (
+                              <a href={post.url} target="_blank" rel="noreferrer" className="post-card" key={post.id}>
+                                  <div className="post-card-header">
+                                      <div className="post-card-avatar">{post.sourceAcronym}</div>
+                                      <div className="post-card-source">{post.source}</div>
+                                      <div className="post-card-date">{post.date}</div>
                                   </div>
-                              </div>
-                          </a>
-                      ))}
+                                  <div className="post-card-img-container">
+                                      <img src={post.img} alt={post.title} className="post-card-img" />
+                                  </div>
+                                  <div className="post-card-body">
+                                      <div className="post-card-title">{post.title}</div>
+                                      <button className="post-btn-floating">veja completo</button>
+                                  </div>
+                              </a>
+                          ))}
+                          {currentPosts.length === 0 && (
+                              <div style={{textAlign:'center', color:'#888', padding:'40px 0'}}>Nenhum post encontrado.</div>
+                          )}
+                      </div>
+
+                      {/* Paginação */}
+                      {totalPages > 1 && (
+                          <div className="pagination" style={{marginTop: 40}}>
+                              {Array.from({length: totalPages}).map((_, i) => {
+                                  const pg = i + 1;
+                                  return (
+                                      <div 
+                                          key={pg} 
+                                          className={`pg ${pg === safePage ? 'ap' : ''}`}
+                                          onClick={() => setPostsPage(pg)}
+                                          style={{cursor: 'pointer'}}
+                                      >
+                                          {pg}
+                                      </div>
+                                  );
+                              })}
+                              {safePage < totalPages && (
+                                  <div className="pg" onClick={() => setPostsPage(safePage + 1)} style={{cursor: 'pointer'}}>→</div>
+                              )}
+                          </div>
+                      )}
+
                   </div>
-              )
-          } else {
-              return <div style={{padding: 20, textAlign: 'center', color: '#777', fontSize: 12}}>Nenhuma notícia encontrada nesta categoria.</div>;
-          }
+              </div>
+          );
       }
 
       // 5.9 BI ENTREGAS Dashboard completo
@@ -380,145 +829,120 @@ export default function Home() {
           // Count por area para o gráfico
           const areaCounts = {};
           entregas.forEach(e => { areaCounts[e.area] = (areaCounts[e.area] || 0) + 1; });
+          const regiaoCounts = {};
+          entregas.forEach(e => { regiaoCounts[e.regiao] = (regiaoCounts[e.regiao] || 0) + 1; });
           const totalEntregas = entregas.length;
           const maxCount = Math.max(...Object.values(areaCounts));
 
-          const areaColors = {
-              'Saúde': '#0278F8', 'Educação': '#00B87A', 'Infraestrutura': '#F59E0B',
-              'Segurança': '#EF4444', 'Economia': '#8B5CF6', 'Meio Ambiente': '#10B981',
-              'Social': '#EC4899', 'Transportes': '#F97316', 'Habitação': '#6366F1', 'Outros': '#9CA3AF'
-          };
-
-          const selectStyle = {
-              padding: '6px 10px', borderRadius: 6, border: '1px solid #e0dfd9',
-              fontSize: 10, background: '#fff', color: '#333', cursor: 'pointer', minWidth: 140
-          };
-
           return (
-              <div className="section" id="bi-section">
-                  {/* Header BI */}
-                  <div style={{display:'flex', justifyContent:'space-between', alignItems:'start', marginBottom:16}}>
-                      <div>
-                          <div style={{fontSize:16, fontWeight:800, color:'#1a1a18', marginBottom:4}}>Entregas do Governo (BI)</div>
-                          <div style={{fontSize:11, color:'#777'}}>Jan/2023 – Mar/2026 · {totalEntregas} registros classificados por IA</div>
-                      </div>
-                      <div className="tag" style={{background:'#0278F8', color:'#fff', padding:'4px 10px', fontSize:9}}>
-                          {biFiltered.length} resultado{biFiltered.length !== 1 ? 's' : ''}
-                      </div>
+              <div className="section" id="bi-section" style={{padding: 0, overflow:'hidden', backgroundColor: '#fff', width: '100%', maxWidth: 'none'}}>
+                  {/* Hero Banner Fluido (100% width) */}
+                  <div className="bi-hero" style={{marginBottom: 0}}>
+                      <img src="https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FBanner%20Entregas.png?alt=media&token=42b82ace-7de2-4bdc-b63c-ce61e2771e15" alt="Banner Entregas" />
                   </div>
 
-                  {/* KPIs Fixas (Conforme Wireframe original) */}
-                  <div className="g4" style={{marginBottom:16}}>
-                      <div className="metric-card" style={{border:'1px solid #e5e4df'}}>
-                          <div style={{fontSize:18, fontWeight:800, color:'#1a1a18', marginBottom:4}}>7 mil+</div>
-                          <div style={{fontSize:8, color:'#aaa', textAlign:'center', textTransform:'uppercase'}}>Obras feitas</div>
-                      </div>
-                      <div className="metric-card" style={{border:'1px solid #e5e4df'}}>
-                          <div style={{fontSize:14, fontWeight:800, color:'#1a1a18', marginBottom:4, paddingTop:4}}>R$ 15,3 bi</div>
-                          <div style={{fontSize:8, color:'#aaa', textAlign:'center', textTransform:'uppercase'}}>Saúde</div>
-                      </div>
-                      <div className="metric-card" style={{border:'1px solid #e5e4df'}}>
-                          <div style={{fontSize:14, fontWeight:800, color:'#1a1a18', marginBottom:4, paddingTop:4}}>R$ 15,6 bi</div>
-                          <div style={{fontSize:8, color:'#aaa', textAlign:'center', textTransform:'uppercase'}}>Educação</div>
-                      </div>
-                      <div className="metric-card" style={{border:'1px solid #e5e4df'}}>
-                          <div style={{fontSize:14, fontWeight:800, color:'#1a1a18', marginBottom:4, paddingTop:4}}>R$ 14 bi</div>
-                          <div style={{fontSize:8, color:'#aaa', textAlign:'center', textTransform:'uppercase'}}>Segurança</div>
-                      </div>
+                  {/* Caixas de Investimento (Imagem) com sobreposição */}
+                  <div style={{width: '100%', maxWidth: '1000px', margin: '-60px auto 40px auto', position: 'relative', zIndex: 10, padding: '0 20px'}}>
+                      <img src="https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FInvestimentos.png?alt=media&token=4ffd53e7-7a18-4138-82f2-81453acbff40" alt="Investimentos em Saúde, Segurança e Educação" style={{width: '100%', display: 'block'}} />
                   </div>
 
-                  {/* Filtros */}
-                  <div style={{background:'#fafaf7', border:'1px solid #e5e4df', borderRadius:8, padding:12, marginBottom:14, position:'relative'}}>
-                      <div style={{fontSize:10, color:'#555', fontWeight:600, marginBottom:10}}>Filtrar entregas</div>
-                      <div style={{display:'flex', gap:8, flexWrap:'wrap', alignItems:'center'}}>
-                          <div style={{display:'flex', flexDirection:'column', gap:3}}>
-                              <label style={{fontSize:8, color:'#aaa', textTransform:'uppercase'}}>Área</label>
-                              <select style={selectStyle} value={biFilterArea} onChange={e => setBiFilterArea(e.target.value)}>
-                                  {allAreas.map(a => <option key={a}>{a}</option>)}
-                              </select>
+                  <div style={{padding: '0 20px', maxWidth: '1100px', margin: '0 auto'}}>
+                      {/* Área de Filtros */}
+                      <div className="bi-filter-container">
+                          <div className="bi-filter-header">Filtrar Entregas</div>
+                          <div className="bi-filter-row">
+                              <div className="bi-select-wrapper">
+                                  <select value={biFilterRegiao} onChange={e => setBiFilterRegiao(e.target.value)}>
+                                      <option value="Todas" hidden>Cidade: Todas</option>
+                                      {allRegioes.map(r => <option key={r} value={r}>{r === 'Todas' ? 'Cidade: Todas' : r}</option>)}
+                                  </select>
+                              </div>
+                              <div className="bi-select-wrapper">
+                                  <select value={biFilterArea} onChange={e => setBiFilterArea(e.target.value)}>
+                                      <option value="Todas" hidden>Área: Todas</option>
+                                      {allAreas.map(a => <option key={a} value={a}>{a === 'Todas' ? 'Área: Todas' : a}</option>)}
+                                  </select>
+                              </div>
+                              <div className="bi-select-wrapper">
+                                  <select value={biFilterPeriodo} onChange={e => setBiFilterPeriodo(e.target.value)}>
+                                      <option value="Todos" hidden>Período: Todos</option>
+                                      {allPeriodos.map(p => <option key={p} value={p}>{p === 'Todos' ? 'Período: Todos' : p}</option>)}
+                                  </select>
+                              </div>
+                              <button className="bi-btn-aplicar">Aplicar</button>
                           </div>
-                          <div style={{display:'flex', flexDirection:'column', gap:3}}>
-                              <label style={{fontSize:8, color:'#aaa', textTransform:'uppercase'}}>Região</label>
-                              <select style={selectStyle} value={biFilterRegiao} onChange={e => setBiFilterRegiao(e.target.value)}>
-                                  {allRegioes.map(r => <option key={r}>{r}</option>)}
-                              </select>
-                          </div>
-                          <div style={{display:'flex', flexDirection:'column', gap:3}}>
-                              <label style={{fontSize:8, color:'#aaa', textTransform:'uppercase'}}>Período</label>
-                              <select style={selectStyle} value={biFilterPeriodo} onChange={e => setBiFilterPeriodo(e.target.value)}>
-                                  {allPeriodos.map(p => <option key={p}>{p}</option>)}
-                              </select>
-                          </div>
-                          {(biFilterArea !== 'Todas' || biFilterRegiao !== 'Todas' || biFilterPeriodo !== 'Todos') && (
-                              <button onClick={() => { setBiFilterArea('Todas'); setBiFilterRegiao('Todas'); setBiFilterPeriodo('Todos'); }}
-                                  style={{marginTop:14, padding:'6px 12px', background:'#ef4444', color:'#fff', border:'none', borderRadius:6, fontSize:9, cursor:'pointer', fontWeight:700}}>
-                                  Limpar Filtros ×
-                              </button>
-                          )}
                       </div>
-                      
-                      {/* Chips ativos */}
-                      {(biFilterArea !== 'Todas' || biFilterRegiao !== 'Todas' || biFilterPeriodo !== 'Todos') && (
-                          <div style={{display:'flex', gap:6, flexWrap:'wrap', marginTop:10}}>
-                              <span style={{fontSize:9, color:'#aaa'}}>Filtrando:</span>
-                              {biFilterArea !== 'Todas' && <div style={{background:'#0278F820', color:'#0278F8', padding:'2px 8px', borderRadius:10, fontSize:9, fontWeight:600}}>{biFilterArea} ×</div>}
-                              {biFilterRegiao !== 'Todas' && <div style={{background:'#0278F820', color:'#0278F8', padding:'2px 8px', borderRadius:10, fontSize:9, fontWeight:600}}>{biFilterRegiao} ×</div>}
-                              {biFilterPeriodo !== 'Todos' && <div style={{background:'#0278F820', color:'#0278F8', padding:'2px 8px', borderRadius:10, fontSize:9, fontWeight:600}}>{biFilterPeriodo} ×</div>}
-                          </div>
+
+                      {/* Tags de Filtros Ativos */}
+                      {(biFilterRegiao !== 'Todas' || biFilterArea !== 'Todas' || biFilterPeriodo !== 'Todos') && (
+                      <div className="bi-active-filters">
+                          <span style={{fontSize: 14, color: '#aaa'}}>Filtrando:</span>
+                          {biFilterRegiao !== 'Todas' && <div className="bi-filter-tag" onClick={() => setBiFilterRegiao('Todas')}>{biFilterRegiao} <span>×</span></div>}
+                          {biFilterArea !== 'Todas' && <div className="bi-filter-tag" onClick={() => setBiFilterArea('Todas')}>{biFilterArea} <span>×</span></div>}
+                          {biFilterPeriodo !== 'Todos' && <div className="bi-filter-tag" onClick={() => setBiFilterPeriodo('Todos')}>{biFilterPeriodo} <span>×</span></div>}
+                      </div>
                       )}
-                  </div>
 
-                  {/* Grid de entregas estilo cards sem imagem (Wireframe original) */}
-                  {biFiltered.length > 0 ? (
-                      <div className="g3" style={{marginBottom:16}}>
-                          {biFiltered.map((entrega, idx) => (
-                              <a href={entrega.link} target="_blank" rel="noreferrer" key={idx} style={{textDecoration:'none', color:'inherit', display:'block'}}>
-                                  <div className="entrega-card" style={{border:'1px solid #e5e4df', borderRadius:7, padding:'10px 12px', background:'#fff', height:'100%', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
-                                      <div>
-                                          <div style={{display:'flex', justifyContent:'space-between', alignItems:'start', marginBottom:4}}>
-                                              <div className="tag">{entrega.area}</div>
-                                              <div style={{fontSize:8, color:'#aaa'}}>{new Date(entrega.date).toLocaleDateString('pt-BR')}</div>
+                      {/* Grid de Entregas (Cards) */}
+                      <div className="bi-grid">
+                          {biFiltered.slice(0, biVisibleCards).map((e, idx) => {
+                              // O site da Agência Brasília redireciona muitos slugs antigos (ou recém-importados) para a home via fallback 200/404.
+                              // Para garantir precisão CLÍNICA e levar o usuário direto à matéria, sobrescrevemos o link para uma URL de Pesquisa Direta
+                              const dynamicLink = `https://www.agenciabrasilia.df.gov.br/?s=${encodeURIComponent(e.text || e.title)}`;
+                              return (
+                              <a href={dynamicLink} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit', height: '100%'}} key={idx}>
+                                  <div className="bi-card" style={{height: '100%', cursor: 'pointer'}}>
+                                      <div className="bi-card-pills">
+                                          <div className="bi-card-pill" style={{display:'flex', alignItems:'center', gap:4}}>
+                                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                              {e.regiao !== 'N/A' ? e.regiao : 'Geral'}
                                           </div>
-                                          <div style={{fontSize:11, fontWeight:600, color:'#222', lineHeight:1.2, margin:'4px 0'}}>
-                                              {entrega.text.substring(0, 90)}{entrega.text.length > 90 ? '...' : ''}
-                                          </div>
+                                          <div className="bi-card-pill">{e.area}</div>
                                       </div>
-                                      <div className="city-row" style={{display:'flex', alignItems:'center', gap:4, marginTop:8}}>
-                                          <div className="city-dot" style={{width:7, height:7, borderRadius:'50%', background:'#bbb'}}></div>
-                                          <span style={{fontSize:9, color:'#777'}}>{entrega.regiao}</span>
-                                      </div>
+                                      <div className="bi-card-text">{e.text || e.title}</div>
+                                      <div className="bi-card-date">{e.date}</div>
                                   </div>
                               </a>
-                          ))}
+                              );
+                          })}
                       </div>
-                  ) : (
-                      <div style={{textAlign:'center', padding:40, color:'#aaa', fontSize:12}}>
-                          Nenhuma entrega encontrada com esses filtros.
-                      </div>
-                  )}
+                      {biFiltered.length === 0 && <div style={{textAlign:'center', padding:40, color:'#999'}}>Nenhuma entrega encontrada para estes filtros.</div>}
+                      {biFiltered.length > biVisibleCards && <div style={{textAlign:'center', marginBottom: 30}}><button onClick={() => setBiVisibleCards(biVisibleCards + 18)} style={{background:'transparent', border:'1px solid #ccc', padding:'8px 24px', borderRadius:20, fontSize:12, cursor:'pointer'}}>Ver mais</button></div>}
 
-                  {/* Gráfico de Barras por Área */}
-                  {entregas.length > 0 && (
-                      <div style={{borderTop:'1px solid #eee', marginTop:8, paddingTop:14}}>
-                          <div className="section-label">Distribuição por área (total da base)</div>
-                          <div style={{border:'1px solid #e5e4df', borderRadius:8, padding:14, background:'#fafaf7'}}>
-                              {Object.entries(areaCounts).sort((a,b) => b[1]-a[1]).map(([area, count]) => (
-                                  <div key={area} style={{display:'flex', alignItems:'center', gap:8, marginBottom:6}}>
-                                      <span style={{fontSize:9, color:'#444', width:90, flexShrink:0}}>{area}</span>
-                                      <div style={{flex:1, height:8, background:'#eee', borderRadius:4, overflow:'hidden'}}>
-                                          <div style={{width:`${(count/maxCount)*100}%`, height:'100%', background: areaColors[area] || '#0278F8', borderRadius:4, transition:'width 0.5s'}}></div>
+                      {/* Painéis Analytics Inferiores */}
+                      <div className="bi-analytics-row">
+                          {/* Left: Bars */}
+                          <div className="bi-analytics-box">
+                              <div className="bi-analytics-title">Entregas por Área</div>
+                              <div style={{display:'flex', flexDirection:'column', gap: 12}}>
+                                  {Object.entries(areaCounts).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([area, count]) => (
+                                      <div className="bi-bar-row" key={area}>
+                                          <div className="bi-bar-pill">{area}</div>
+                                          <div className="bi-bar-track">
+                                              <div className="bi-bar-fill" style={{width: `${Math.max(15, (count / maxCount) * 100)}%`}}>{count} entregas</div>
+                                          </div>
                                       </div>
-                                      <span style={{fontSize:9, fontWeight:700, color:'#555', width:24, textAlign:'right'}}>{count}</span>
-                                  </div>
-                              ))}
+                                  ))}
+                              </div>
+                          </div>
+                          {/* Right: R.A.s */}
+                          <div className="bi-analytics-box">
+                              <div className="bi-analytics-title-cen">Top 5 R.As com mais entregas</div>
+                              <div style={{display:'flex', flexDirection:'column', gap: 12}}>
+                                  {Object.entries(regiaoCounts).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([regiao, count]) => (
+                                      <div style={{display:'flex', gap: 12, alignItems:'center'}} key={regiao}>
+                                          <div style={{background:'#002e77', color:'#fff', padding:'6px 12px', borderRadius:20, flex:1, fontSize:11, fontWeight:700}}>{regiao}</div>
+                                          <div style={{background:'#0278F8', color:'#fff', padding:'6px 16px', borderRadius:20, fontSize:11, fontWeight:700}}>{count}</div>
+                                      </div>
+                                  ))}
+                              </div>
                           </div>
                       </div>
-                  )}
+                  </div>
               </div>
           );
       }
 
-      // 6. Integracao de Videos Youtube (API Apify)
       // Capturamos a "div" container que envolve a seção de Vídeos Mais recentes
       if (domNode.name === 'div' && domNode.children?.some(n => n.attribs?.class === 'section-label' && n.children?.[0]?.data?.includes('deos'))) {
          const videosVisiveis = mostrarMaisVideos ? videos : videos.slice(0, 3);
