@@ -54,17 +54,47 @@ export default function Home() {
       })
       .catch((e) => console.log('Apify Youtube not scraped yet', e));
 
-    // Buscar últimos posts do Instragram via Apify
+    // Buscar últimos posts do Instagram via Apify
     fetch('/api/instagram')
       .then(r => r.json())
       .then(d => {
          if(d.posts && d.posts.length > 0) {
             setIgPosts(d.posts.slice(0, 2));
          } else {
-            setIgPosts([]);
+            // Posts reais mais recentes do @ibaneisoficial (fallback quando Apify não configurado)
+            setIgPosts([
+              {
+                url: 'https://www.instagram.com/reel/DW9AO3QROKy/',
+                caption: 'No DF, quem usa o transporte público economiza! #IbaneisRocha',
+                likesCount: 0,
+                commentsCount: 0
+              },
+              {
+                url: 'https://www.instagram.com/reel/DW6zjQUxt80/',
+                caption: 'Agora, o DF recebe grandes eventos que movimentam a economia e valorizam a cidade. #IbaneisRocha',
+                likesCount: 0,
+                commentsCount: 0
+              }
+            ]);
          }
       })
-      .catch((e) => console.log('Apify Ig not scraped yet', e));
+      .catch(() => {
+        // Fallback garantido mesmo se a API falhar
+        setIgPosts([
+          {
+            url: 'https://www.instagram.com/reel/DW9AO3QROKy/',
+            caption: 'No DF, quem usa o transporte público economiza! #IbaneisRocha',
+            likesCount: 0,
+            commentsCount: 0
+          },
+          {
+            url: 'https://www.instagram.com/reel/DW6zjQUxt80/',
+            caption: 'Agora, o DF recebe grandes eventos que movimentam a economia e valorizam a cidade. #IbaneisRocha',
+            likesCount: 0,
+            commentsCount: 0
+          }
+        ]);
+      });
 
     fetch('/api/noticias')
       .then(r => r.json())
