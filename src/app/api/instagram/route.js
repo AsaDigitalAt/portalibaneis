@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 
-// Revalidar resgate a cada meia hora devido a eventuais atrasos, maximo 1h.
-export const revalidate = 3600; 
+// Revalidar resgate a cada minuto para evitar cache congelado no ambiente dev/prod
+export const revalidate = 60; 
 
 export async function GET() {
   try {
     const token = process.env.APIFY_API_TOKEN;
     const url = `https://api.apify.com/v2/acts/shu8hvrXbJbY3Eb9W/runs/last/dataset/items?token=${token}&status=SUCCEEDED`;
     
-    const response = await fetch(url, { next: { revalidate: 3600 } });
+    const response = await fetch(url, { next: { revalidate: 60 } });
     if (!response.ok) {
         throw new Error('Falha HTTP');
     }

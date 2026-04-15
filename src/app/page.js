@@ -22,6 +22,7 @@ export default function Home() {
   const [chatOpen, setChatOpen] = useState(false);
   const [videos, setVideos] = useState([]);
   const [igPosts, setIgPosts] = useState([]);
+  const [igStartIndex, setIgStartIndex] = useState(0);
   const [mostrarMaisVideos, setMostrarMaisVideos] = useState(false);
   
   // Estados de Notícias
@@ -79,36 +80,19 @@ export default function Home() {
       .then(r => r.json())
       .then(d => {
          if(d.posts && d.posts.length > 0) {
-            setIgPosts(d.posts.slice(0, 3));
+            const valid = d.posts.filter(p => !p.ownerUsername || p.ownerUsername.toLowerCase() === 'ibaneisoficial');
+            const sorted = valid.sort((a,b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+            if (sorted.length > 0) {
+              setIgPosts(sorted); // Agora enviaremos tudo (limite 10 pelo actor) para preencher o carrossel.
+            } else {
+              throw new Error("No ibaneis apify data");
+            }
          } else {
             throw new Error("No apify data");
          }
       })
-      .catch(() => {
-        // Fallback garantido mesmo se a API falhar
-        setIgPosts([
-          {
-            url: 'https://www.instagram.com/reel/DW9AO3QROKy/',
-            caption: 'No DF, quem usa o transporte público economiza! #IbaneisRocha',
-            likesCount: 1450,
-            commentsCount: 89,
-            thumbnail: 'https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FIBANEIS.FOTO.BURITI.jpg?alt=media&token=ab1e2c2e-194d-48b5-bafa-0d12e43eb703'
-          },
-          {
-            url: 'https://www.instagram.com/reel/DW6zjQUxt80/',
-            caption: 'Agora, o DF recebe grandes eventos que movimentam a economia e valorizam a cidade. #IbaneisRocha',
-            likesCount: 2310,
-            commentsCount: 154,
-            thumbnail: 'https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FIbaneis%20Rocha_02-05_Foto%20Renato%20Alves_Agencia%20Brasilia-27.jpg?alt=media&token=80b91012-706b-4e01-9a74-b52adfe7fef5'
-          },
-          {
-            url: 'https://www.instagram.com/reel/DW3HjQUxt80/',
-            caption: 'O progresso não para! Acompanhe as novas obras da gestão.',
-            likesCount: 980,
-            commentsCount: 45,
-            thumbnail: 'https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2F16262846933_349d997d44_w.jpg?alt=media&token=0b6e9c60-a292-4f35-9856-ccae5e6a9ee8'
-          }
-        ]);
+      .catch((err) => {
+        console.error("Erro ao buscar dados do Instagram:", err);
       });
 
     fetch('/api/noticias')
@@ -148,7 +132,7 @@ export default function Home() {
                  {/* Botão invisível sobreposto ao texto 'Ver entregas' da arte geométrica! Mapeamento responsivo via % */}
                  <button 
                      onClick={() => setActiveTab('entregas')}
-                     title="Acessar Entregas (BI)"
+                     title="Acessar Entregas"
                      style={{
                          position: 'absolute', 
                          top: '75%', 
@@ -176,7 +160,7 @@ export default function Home() {
           { id: 'home', label: 'Home' },
           { id: 'noticias', label: 'Notícias' },
           { id: 'posts', label: 'Posts Rápidos' },
-          { id: 'entregas', label: 'Entregas (BI)' },
+          { id: 'entregas', label: 'Entregas' },
           { id: 'palavra', label: 'Palavra do Dia' },
           { id: 'sobre', label: 'Sobre Ibaneis' }
         ];
@@ -224,30 +208,43 @@ export default function Home() {
          );
       }
 
-      // 5. Renderizar Instagram dinâmico no novo formato vertical (.ig-vertical)
-      if (domNode.attribs && domNode.attribs.id === 'ig-posts-destaque') {
+      // 5. Renderizar Instagram dinâmico no formato de carrossel (.ig-carousel)
+      if (domNode.attribs && domNode.attribs.class === 'ig-carousel') {
          if (igPosts.length > 0) {
+             const maxIndex = Math.max(0, igPosts.length - 3);
+             const handlePrev = () => setIgStartIndex(s => Math.max(0, s - 1));
+             const handleNext = () => setIgStartIndex(s => Math.min(maxIndex, s + 1));
+             
              return (
-                 <div className="ig-cards" id="ig-posts-destaque">
-                     {igPosts.slice(0, 3).map((post, idx) => {
-                         const thumb = post.displayUrl || post.thumbnail || 'https://placehold.co/140x200';
-                         return (
-                         <a href={post.url} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
-                             <div className="ig-vertical">
-                                 <div className="ig-vertical-thumb" style={{
-                                     backgroundImage: `url(${thumb})`
-                                 }}></div>
-                                 <div className="ig-vertical-autor">
-                                     <img src="https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2Fibaneis%20foto%20de%20perfil.jpg?alt=media&token=f60d6e27-701e-48db-a907-0be7749a8dd4" alt="Ibaneis Rocha" style={{ width: 18, height: 18, borderRadius: '50%', objectFit: 'cover' }} />
-                                     <div className="ig-nome">IbaneisOficial</div>
+                 <div className="ig-carousel">
+                     <button className="nav-arrow" onClick={handlePrev} disabled={igStartIndex === 0} style={{ opacity: igStartIndex === 0 ? 0.3 : 1, cursor: igStartIndex === 0 ? 'not-allowed' : 'pointer' }}>
+                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                     </button>
+                     <div className="ig-cards" id="ig-posts-destaque">
+                         {igPosts.slice(igStartIndex, igStartIndex + 3).map((post, idx) => {
+                             const rawThumb = post.displayUrl || post.thumbnail;
+                             const thumb = rawThumb ? `/api/ig-image?url=${encodeURIComponent(rawThumb)}` : 'https://placehold.co/140x200';
+                             return (
+                             <a href={post.url} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
+                                 <div className="ig-vertical">
+                                     <div className="ig-vertical-thumb" style={{
+                                         backgroundImage: `url(${thumb})`
+                                     }}></div>
+                                     <div className="ig-vertical-autor">
+                                         <img src="https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2Fibaneis%20foto%20de%20perfil.jpg?alt=media&token=f60d6e27-701e-48db-a907-0be7749a8dd4" alt="Ibaneis Rocha" style={{ width: 18, height: 18, borderRadius: '50%', objectFit: 'cover' }} />
+                                         <div className="ig-nome">IbaneisOficial</div>
+                                     </div>
+                                     <div className="ig-text">
+                                         {post.caption?.substring(0, 80)}{post.caption?.length > 80 ? '...' : ''}
+                                     </div>
                                  </div>
-                                 <div className="ig-text">
-                                     {post.caption?.substring(0, 80)}{post.caption?.length > 80 ? '...' : ''}
-                                 </div>
-                             </div>
-                         </a>
-                         );
-                     })}
+                             </a>
+                             );
+                         })}
+                     </div>
+                     <button className="nav-arrow" onClick={handleNext} disabled={igStartIndex >= maxIndex} style={{ opacity: igStartIndex >= maxIndex ? 0.3 : 1, cursor: igStartIndex >= maxIndex ? 'not-allowed' : 'pointer' }}>
+                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                     </button>
                  </div>
              );
          }
@@ -296,8 +293,11 @@ export default function Home() {
                   <div className="noticias-grid" id="noticias-destaque">
                       {noticias.slice(0, 4).map((noticia, idx) => {
                           const bgImage = noticia.img || realMedia.noticias[idx % realMedia.noticias.length];
+                          const noticiaLink = noticia.link === 'https://www.agenciabrasilia.df.gov.br/' 
+                              ? `https://www.agenciabrasilia.df.gov.br/?s=${encodeURIComponent(noticia.text || noticia.title)}` 
+                              : noticia.link;
                           return (
-                          <a href={noticia.link} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
+                          <a href={noticiaLink} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
                               <div className="news-landscape" style={{
                                   backgroundImage: `url(${bgImage})`
                               }}>
@@ -319,8 +319,12 @@ export default function Home() {
           if (noticias.length > 3) {
               return (
                  <div className="entregas-left" id="entregas-destaque">
-                      {noticias.slice(3, 6).map((entrega, idx) => (
-                          <a href={entrega.link} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
+                      {noticias.slice(3, 6).map((entrega, idx) => {
+                          const entregaLink = entrega.link === 'https://www.agenciabrasilia.df.gov.br/' 
+                              ? `https://www.agenciabrasilia.df.gov.br/?s=${encodeURIComponent(entrega.text || entrega.title)}` 
+                              : entrega.link;
+                          return (
+                          <a href={entregaLink} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
                               <div className="entrega-dark-card">
                                   <div className="entrega-dark-img" style={{ backgroundImage: `url(${entrega.img})` }}></div>
                                   <div className="entrega-dark-text">
@@ -329,7 +333,8 @@ export default function Home() {
                                   </div>
                               </div>
                           </a>
-                      ))}
+                          );
+                      })}
                  </div>
               )
           }
@@ -886,21 +891,29 @@ export default function Home() {
                       {/* Grid de Entregas (Cards) */}
                       <div className="bi-grid">
                           {biFiltered.slice(0, biVisibleCards).map((e, idx) => {
-                              // O site da Agência Brasília redireciona muitos slugs antigos (ou recém-importados) para a home via fallback 200/404.
-                              // Para garantir precisão CLÍNICA e levar o usuário direto à matéria, sobrescrevemos o link para uma URL de Pesquisa Direta
-                              const dynamicLink = `https://www.agenciabrasilia.df.gov.br/?s=${encodeURIComponent(e.text || e.title)}`;
+                              const fallbackImg = "https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg";
                               return (
-                              <a href={dynamicLink} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit', height: '100%'}} key={idx}>
-                                  <div className="bi-card" style={{height: '100%', cursor: 'pointer'}}>
-                                      <div className="bi-card-pills">
-                                          <div className="bi-card-pill" style={{display:'flex', alignItems:'center', gap:4}}>
-                                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                                              {e.regiao !== 'N/A' ? e.regiao : 'Geral'}
+                              <a href={e.link} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit', height: '100%', display:'block'}} key={idx}>
+                                  <div className="bi-card" style={{height: '100%', cursor: 'pointer', overflow:'hidden', display:'flex', flexDirection:'column'}}>
+                                      <div style={{
+                                          width: '100%', 
+                                          height: '140px', 
+                                          backgroundImage: `url(${e.img && e.img !== '' ? e.img : fallbackImg})`,
+                                          backgroundSize: 'cover',
+                                          backgroundPosition: 'center',
+                                          backgroundColor: '#eee'
+                                      }}></div>
+                                      <div style={{padding: '16px', flex:1, display:'flex', flexDirection:'column'}}>
+                                          <div className="bi-card-pills" style={{marginBottom: '10px'}}>
+                                              <div className="bi-card-pill" style={{display:'flex', alignItems:'center', gap:4}}>
+                                                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                                  {e.regiao !== 'N/A' ? e.regiao : 'Geral'}
+                                              </div>
+                                              <div className="bi-card-pill">{e.area}</div>
                                           </div>
-                                          <div className="bi-card-pill">{e.area}</div>
+                                          <div className="bi-card-text" style={{flex:1}}>{e.text || e.title}</div>
+                                          <div className="bi-card-date" style={{marginTop: 'auto'}}>{e.date}</div>
                                       </div>
-                                      <div className="bi-card-text">{e.text || e.title}</div>
-                                      <div className="bi-card-date">{e.date}</div>
                                   </div>
                               </a>
                               );

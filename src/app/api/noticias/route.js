@@ -1,16 +1,39 @@
 import { NextResponse } from 'next/server';
-import entregasData from '@/data/entregas.json';
+import * as cheerio from 'cheerio';
 
-// Reutiliza o banco de dados de entregas (já classificados por IA) para a seção de notícias
-// As notícias em destaque vêm de artigos reais da Agência Brasília entre 2023-2026
 export async function GET() {
-    // Ordena por data mais recente
-    const sorted = [...entregasData].sort((a, b) => {
-        const [da, ma, ya] = a.date.split('/').map(Number);
-        const [db, mb, yb] = b.date.split('/').map(Number);
-        return new Date(yb, mb - 1, db) - new Date(ya, ma - 1, da);
-    });
+    try {
+        const response = await fetch('https://www.agenciabrasilia.df.gov.br/noticias', { next: { revalidate: 3600 } });
+        const text = await response.text();
+        const $ = cheerio.load(text);
+        
+        const items = [];
+        $('a').each((i, el) => {
+            const link = $(el).attr('href');
+            if (link && link.includes('agenciabrasilia') && !link.includes('category')) {
+                let img = $(el).find('img').attr('src') || 'https://www.agenciabrasilia.df.gov.br/wp-content/themes/agencia-brasilia/assets/images/placeholder.jpg';
+                if (img.startsWith('/')) img = `https://www.agenciabrasilia.df.gov.br${img}`;
+                
+                const rawTitle = $(el).text().trim().replace(/\s+/g, ' ');
+                const titleMatch = rawTitle.match(/^(.*?)(?=\s\d{2}\/\d{2}\/\d{4})/);
+                const cleanTitle = titleMatch ? titleMatch[1].trim() : rawTitle.substring(0, 100);
 
-    // Entrega os mais recentes como "noticias" com tag já definida pelo agente de IA
-    return NextResponse.json({ noticias: sorted });
+                if (cleanTitle && cleanTitle.length > 20) {
+                    if (!items.find(item => item.link === link)) {
+                        items.push({ 
+                            link: link, 
+                            text: cleanTitle, 
+                            area: 'Destaque',
+                            img: img 
+                        });
+                    }
+                }
+            }
+        });
+        
+        return NextResponse.json({ noticias: items.slice(0, 10) });
+    } catch(err) {
+        console.error("Erro no scraping da Agencia", err);
+        return NextResponse.json({ noticias: [] }, { status: 500 });
+    }
 }
