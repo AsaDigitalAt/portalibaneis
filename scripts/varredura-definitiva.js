@@ -32,10 +32,27 @@ function parseDateBR(dateStr) {
 async function sweepApifyLinks(existingLinks) {
     const anos = ["2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"];
     const keywords = [
+        // Obras e Ações
         "obras", "inaugura", "entrega", "conclui", "viaduto", "hospital", "escola",
-        "investimentos", "revitaliza", "reforma", "pavimentação", "Ceilândia", "Taguatinga", 
-        "Samambaia", "Gama", "Sudoeste", "Guará", "Planaltina", "governo",
-        "moradia", "rodoviária", "polícia", "bombeiros", "segurança", "cultura"
+        "investimentos", "revitaliza", "reforma", "pavimentação", "governo",
+        "moradia", "rodoviária", "polícia", "bombeiros", "segurança", "cultura",
+        "UBS", "UPA", "creche", "CEPI", "tapa-buraco", "asfalto", "iluminação", "LED",
+        "saneamento", "Caesb", "CEB", "Novacap", "Terracap", "BRT", "mobilidade",
+        "restaurante comunitário", "parque", "asfalto novo", "equipamentos", "frota", "viaturas",
+        "regularização", "escrituras", "Cras", "Creas", "licitação", "ordem de serviço",
+        
+        // Programas de Governo
+        "GDF Presente", "RenovaDF", "DF Social", "Cartão Prato Cheio", "Cartão Gás",
+        "Habilitação Social", "Cartão Material Escolar", "Adote Uma Praça",
+        
+        // Regiões Administrativas do DF
+        "Plano Piloto", "Gama", "Taguatinga", "Brazlândia", "Sobradinho", "Planaltina", 
+        "Paranoá", "Núcleo Bandeirante", "Ceilândia", "Guará", "Cruzeiro", "Samambaia", 
+        "Santa Maria", "São Sebastião", "Recanto das Emas", "Lago Sul", "Riacho Fundo", 
+        "Lago Norte", "Candangolândia", "Águas Claras", "Riacho Fundo II", "Sudoeste", 
+        "Varjão", "Park Way", "Estrutural", "SIA", "Jardim Botânico", "Itapoã", 
+        "Setor de Indústria", "Vicente Pires", "Fercal", "Sol Nascente", "Pôr do Sol", 
+        "Arniqueira", "Arapoanga", "Água Quente"
     ];
     
     const queries = [];
