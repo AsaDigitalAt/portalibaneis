@@ -233,14 +233,19 @@ export default function Home() {
                      <div className="ig-cards" id="ig-posts-destaque">
                          {igPosts.slice(igStartIndex, igStartIndex + 3).map((post, idx) => {
                              const rawThumb = post.displayUrl || post.thumbnail;
-                             // Utiliza base64 no path para que o servidor da Netlify não ache que é a mesma URL (bug do Query String ignorado)
-                             const thumb = rawThumb ? `/api/ig/${btoa(rawThumb)}` : 'https://placehold.co/140x200';
                              return (
                              <a href={post.url} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
                                  <div className="ig-vertical">
-                                     <div className="ig-vertical-thumb" style={{
-                                         backgroundImage: `url(${thumb})`
-                                     }}></div>
+                                     <div className="ig-vertical-thumb" style={{ position: 'relative', overflow: 'hidden', background: '#e9ecef' }}>
+                                         {rawThumb && (
+                                            <img 
+                                                src={rawThumb} 
+                                                alt="Instagram" 
+                                                referrerPolicy="no-referrer" 
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: '12px' }} 
+                                            />
+                                         )}
+                                     </div>
                                      <div className="ig-vertical-autor">
                                          <img src="https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2Fibaneis%20foto%20de%20perfil.jpg?alt=media&token=f60d6e27-701e-48db-a907-0be7749a8dd4" alt="Ibaneis Rocha" style={{ width: 18, height: 18, borderRadius: '50%', objectFit: 'cover' }} />
                                          <div className="ig-nome">IbaneisOficial</div>
