@@ -1292,6 +1292,15 @@ body {
     .post-btn-floating { position: static; align-self: flex-end; }
 }
 
+.investimentos-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: -60px auto 40px auto;
+  position: relative;
+  z-index: 10;
+  padding: 0 20px;
+}
+
 @media (max-width: 768px) {
   .noticias-grid { min-width: auto !important; grid-template-columns: 1fr !important; }
   .entregas-right { min-width: auto !important; }
@@ -1305,4 +1314,7 @@ body {
   .ig-vertical { width: 26vw !important; padding: 6px !important; }
   .ig-vertical-thumb { height: 35vw !important; }
   .nav-arrow { min-width: 24px; }
+  
+  /* Descer as caixas de investimento no celular para exibir texto do banner */
+  .investimentos-container { margin: -10px auto 20px auto !important; }
 }

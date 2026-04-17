@@ -877,7 +877,7 @@ export default function Home() {
                   </div>
 
                   {/* Caixas de Investimento (Imagem) com sobreposição */}
-                  <div style={{width: '100%', maxWidth: '1000px', margin: '-60px auto 40px auto', position: 'relative', zIndex: 10, padding: '0 20px'}}>
+                  <div className="investimentos-container">
                       <img src="https://firebasestorage.googleapis.com/v0/b/base-arquivos.firebasestorage.app/o/SITE%2FInvestimentos.png?alt=media&token=4ffd53e7-7a18-4138-82f2-81453acbff40" alt="Investimentos em Saúde, Segurança e Educação" style={{width: '100%', display: 'block'}} />
                   </div>
 
