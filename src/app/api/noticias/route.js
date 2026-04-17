@@ -35,12 +35,17 @@ export async function GET() {
     } catch(err) {
         console.error("Erro no scraping da Agencia", err);
         // Fallback robusto para quando a AWS/Netlify for bloqueada pelo servidor do GDF
-        const fallbacks = [
-            { link: '#', text: 'Ibaneis Rocha entrega nova Unidade Básica de Saúde no DF', area: 'Saúde', img: 'https://siteiba.netlify.app/avatar2.png' },
-            { link: '#', text: 'GDF investe em melhorias na mobilidade urbana em Vicente Pires', area: 'Infraestrutura', img: 'https://siteiba.netlify.app/avatar2.png' },
-            { link: '#', text: 'Novas escolas garantem vagas para jovens em Samambaia', area: 'Educação', img: 'https://siteiba.netlify.app/avatar2.png' },
-            { link: '#', text: 'Hospital de Campanha recebe novos leitos de UTI', area: 'Saúde', img: 'https://siteiba.netlify.app/avatar2.png' }
-        ];
+        // Fallback robusto usando banco de dados original!
+        const bd = require('../../../data/entregas.json');
+        
+        // Cava 4 registros nobres reais mais recentes que possuam link e imagem de fato
+        const fallbacks = bd.filter(e => e.img && e.link && e.text && !e.img.includes('placeholder')).slice(0, 4).map(e => ({
+            link: e.link,
+            text: e.text || e.title,
+            area: e.area || 'Saúde',
+            img: e.img
+        }));
+        
         return NextResponse.json({ noticias: fallbacks });
     }
 }
