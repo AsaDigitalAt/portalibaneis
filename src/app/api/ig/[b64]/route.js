@@ -2,14 +2,16 @@ import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(request) {
+export async function GET(request, { params }) {
   try {
-    const { searchParams } = new URL(request.url);
-    const imageUrl = searchParams.get('url');
-
-    if (!imageUrl) {
-      return new NextResponse('Missing url parameter', { status: 400 });
+    const b64 = params.b64;
+    
+    if (!b64) {
+      return new NextResponse('Missing encoded url', { status: 400 });
     }
+
+    // Decode base64
+    const imageUrl = Buffer.from(b64, 'base64').toString('utf-8');
 
     // Fazer a requisição da imagem burlando o bloqueio de Referer (hotlink protection) do Instagram
     const response = await fetch(imageUrl, {
@@ -29,12 +31,12 @@ export async function GET(request) {
     return new NextResponse(arrayBuffer, {
       headers: {
         'Content-Type': response.headers.get('Content-Type') || 'image/jpeg',
-        // Cache privado no navegador do usuário para suportar query strings distintas sem colidir na CDN (Netlify/Vercel)
-        'Cache-Control': 'private, max-age=86400',
+        // Cache configurado perfeitamente para essa rota estática única
+        'Cache-Control': 'public, max-age=86400, s-maxage=86400',
       },
     });
   } catch (error) {
-    console.error('Error proxying image:', error);
+    console.error('Error proxying image via path base64:', error);
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

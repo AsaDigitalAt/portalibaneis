@@ -233,7 +233,8 @@ export default function Home() {
                      <div className="ig-cards" id="ig-posts-destaque">
                          {igPosts.slice(igStartIndex, igStartIndex + 3).map((post, idx) => {
                              const rawThumb = post.displayUrl || post.thumbnail;
-                             const thumb = rawThumb ? `/api/ig-image?url=${encodeURIComponent(rawThumb)}` : 'https://placehold.co/140x200';
+                             // Utiliza base64 no path para que o servidor da Netlify não ache que é a mesma URL (bug do Query String ignorado)
+                             const thumb = rawThumb ? `/api/ig/${btoa(rawThumb)}` : 'https://placehold.co/140x200';
                              return (
                              <a href={post.url} target="_blank" rel="noreferrer" style={{textDecoration:'none', color:'inherit'}} key={idx}>
                                  <div className="ig-vertical">
