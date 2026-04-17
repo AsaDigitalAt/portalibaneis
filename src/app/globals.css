@@ -1298,4 +1298,11 @@ body {
   .entregas-left { width: 100% !important; }
   .palavra-home { gap: 20px !important; }
   .palavra-home-card { max-width: 100% !important; }
+  
+  /* Ajuste Dinâmico e Centralização do Carrossel IG */
+  .ig-carousel { justify-content: center; width: 100%; margin: 20px auto; }
+  .ig-cards { gap: 8px !important; }
+  .ig-vertical { width: 26vw !important; padding: 6px !important; }
+  .ig-vertical-thumb { height: 35vw !important; }
+  .nav-arrow { min-width: 24px; }
 }
