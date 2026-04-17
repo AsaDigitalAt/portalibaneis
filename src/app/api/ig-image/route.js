@@ -29,8 +29,8 @@ export async function GET(request) {
     return new NextResponse(arrayBuffer, {
       headers: {
         'Content-Type': response.headers.get('Content-Type') || 'image/jpeg',
-        // O cache no CDN/Browser alivia as chamadas ao proxy para 1 hora
-        'Cache-Control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
+        // Cache privado no navegador do usuário para suportar query strings distintas sem colidir na CDN (Netlify/Vercel)
+        'Cache-Control': 'private, max-age=86400',
       },
     });
   } catch (error) {
