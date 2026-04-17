@@ -105,9 +105,19 @@ export default function Home() {
       .catch((e) => console.log('API Noticias error', e));
 
     fetch('/api/entregas')
-      .then(r => r.json())
+      .then(r => {
+         if (!r.ok) throw new Error('Falha no serverless da Netlify');
+         return r.json();
+      })
       .then(d => { if(d.entregas) setEntregas(d.entregas); })
-      .catch(e => console.log('API Entregas error', e));
+      .catch(e => {
+          console.log('API Entregas error ou timeout local. Bypass ativado', e);
+          import('../data/entregas.json').then(mod => {
+              const base = mod.default || mod;
+              // Carrega uma amostragem pra nao travar o browser se a API principal caiu
+              setEntregas(base.slice(0, 150));
+          }).catch(err => console.error("Falha critica ao injetar JSON raw:", err));
+      });
   }, []);
 
   const options = {

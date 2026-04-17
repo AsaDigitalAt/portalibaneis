@@ -41,18 +41,18 @@ async function sweepApifyLinks(existingLinks) {
     const queries = [];
     anos.forEach(ano => keywords.forEach(kw => queries.push(`site:agenciabrasilia.df.gov.br/w/ "${kw}" ${ano}`)));
     
-    // Sortear para não esgotar as mesmas chaves e realmente pegar "inéditos"
-    const shuffledQueries = queries.sort(() => 0.5 - Math.random()).slice(0, 150);
+    // Sortear para não esgotar as mesmas chaves
+    const shuffledQueries = queries.sort(() => 0.5 - Math.random()).slice(0, 40);
 
     const input = {
         queries: shuffledQueries.join('\n'),
         resultsPerPage: 100,
-        maxPagesPerQuery: 4, 
+        maxPagesPerQuery: 2, // Buscas profundas demais dão Timeout no Node
         languageCode: "pt-BR",
         countryCode: "br"
     };
 
-    console.log(`🤖 1/3 Acionando Google Search Scraping no Apify Pago (${shuffledQueries.length} queries elásticas)... `);
+    console.log(`🤖 1/3 Acionando Google Search Scraping no Apify Pago (${shuffledQueries.length} queries rápidas para evitar timeout)... `);
     const run = await client.actor("apify/google-search-scraper").call(input);
     const { items } = await client.dataset(run.defaultDatasetId).listItems();
     
