@@ -97,6 +97,11 @@ export default function Home() {
   const [newsPage, setNewsPage] = useState(1);
   const [palavraPage, setPalavraPage] = useState(1);
   const [palavrasDoDia, setPalavrasDoDia] = useState([]);
+  
+  // Estados da Galeria Firebase
+  const [galeriaFotos, setGaleriaFotos] = useState([]);
+  const [galeriaPage, setGaleriaPage] = useState(0); 
+  const [galeriaError, setGaleriaError] = useState(false);
 
   useEffect(() => {
      setPalavrasDoDia(generatePalavrasDoDia());
@@ -174,6 +179,15 @@ export default function Home() {
          }
       })
       .catch((e) => console.log('API Noticias error', e));
+
+    // Buscar fotos da galeria (Firebase Storage)
+    fetch('/api/galeria')
+      .then(r => r.json())
+      .then(d => {
+         if(d.fotos) setGaleriaFotos(d.fotos);
+         else if(d.error) setGaleriaError(true);
+      })
+      .catch(e => console.log('API Galeria falhou', e));
 
     fetch('/api/entregas')
       .then(r => {
@@ -259,6 +273,45 @@ export default function Home() {
             ))}
           </div>
          );
+      }
+
+      // 3.4. Galeria de Fotos Firebase (.galeria-flex)
+      if (domNode.attribs && domNode.attribs.class === 'galeria-flex') {
+          if (galeriaError || galeriaFotos.length === 0) {
+              return (
+                  <div className="galeria-flex">
+                       <button className="nav-arrow" disabled style={{opacity: 0.3}}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                       <div className="masonry">
+                           {Array(5).fill(0).map((_, i) => <div key={i} className={`ms-item ${i===0?'ms-hero':''}`} style={{backgroundColor:'#e9ecef', display:'flex', alignItems:'center', justifyContent:'center', color:'#999', fontSize:12, textAlign:'center'}}>
+                               {galeriaError ? 'Regras bloqueadas' : 'Carregando...'}
+                           </div>)}
+                       </div>
+                       <button className="nav-arrow" disabled style={{opacity: 0.3}}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                  </div>
+              );
+          }
+
+          const limite = galeriaFotos.length - 5;
+          const safePage = Math.max(0, Math.min(limite, galeriaPage));
+
+          const btnPrev = () => setGaleriaPage(p => Math.max(0, p - 1));
+          const btnNext = () => setGaleriaPage(p => p >= limite ? 0 : p + 1);
+
+          const fotosRender = galeriaFotos.slice(safePage, safePage + 5);
+
+          return (
+              <div className="galeria-flex">
+                   <button className="nav-arrow" onClick={btnPrev} style={{opacity: safePage === 0 ? 0.3 : 1, cursor: safePage === 0 ? 'not-allowed' : 'pointer'}} disabled={safePage === 0}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                   <div className="masonry">
+                       <div className="ms-item ms-hero" style={{backgroundImage: `url('${fotosRender[0]}')`}} onClick={() => window.open(fotosRender[0])}></div>
+                       <div className="ms-item" style={{backgroundImage: `url('${fotosRender[1]}')`}} onClick={() => window.open(fotosRender[1])}></div>
+                       <div className="ms-item" style={{backgroundImage: `url('${fotosRender[2]}')`}} onClick={() => window.open(fotosRender[2])}></div>
+                       <div className="ms-item" style={{backgroundImage: `url('${fotosRender[3]}')`}} onClick={() => window.open(fotosRender[3])}></div>
+                       <div className="ms-item" style={{backgroundImage: `url('${fotosRender[4]}')`}} onClick={() => window.open(fotosRender[4])}></div>
+                   </div>
+                   <button className="nav-arrow" onClick={btnNext} style={{opacity: safePage >= limite ? 0.3 : 1, cursor: safePage >= limite ? 'not-allowed' : 'pointer'}} disabled={safePage >= limite}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+              </div>
+          );
       }
 
       // 3.5. Substituir a Logo
@@ -490,7 +543,7 @@ export default function Home() {
                           {/* Coluna 3: Hero Card (Destaque Principal) */}
                           <a href={destaque.link || '#'} target="_blank" rel="noreferrer" style={{textDecoration:'none', display:'block'}}>
                               <div className="news-hero-board">
-                                  <div className="news-hero-bg" style={{backgroundImage: `url(${realMedia.noticias[0]})`}}></div>
+                                  <div className="news-hero-bg" style={{backgroundImage: `url(${destaque.img || realMedia.noticias[0]})`}}></div>
                                   <div className="news-hero-overlay">
                                       <div className="news-hero-pill">Destaque</div>
                                       <div className="news-hero-title">{destaque.text || destaque.title}</div>
@@ -511,7 +564,7 @@ export default function Home() {
                               return (
                                   <a href={noticia.link} target="_blank" rel="noreferrer" style={{textDecoration:'none'}} key={idx}>
                                       <div className="news-standard-card">
-                                          <div className="news-hero-bg" style={{backgroundImage: `url(${realMedia.noticias[imgIndex % realMedia.noticias.length]})`}}></div>
+                                          <div className="news-hero-bg" style={{backgroundImage: `url(${noticia.img || realMedia.noticias[imgIndex % realMedia.noticias.length]})`}}></div>
                                           <div className="news-standard-overlay">
                                               <div className="news-standard-pill">{getTag(noticia) || 'Geral'}</div>
                                               <div className="news-standard-title">{noticia.text || noticia.title}</div>
