@@ -25,18 +25,63 @@ function IgImageProxy({ rawThumb }) {
     );
 }
 
-// Mock de Base de Dados para Palavra do Dia
-const PALAVRAS_DUMMY = [
-  { id: 1, dateLabel: "hoje", date: "1 de abril de 2026", title: "Mensagem de hoje", ref: "Responsório Sl 68(69),8-10.21bcd-22.31 e 33-34 (R. 14cb)", text: "- Respondei-me pelo vosso imenso amor, neste tempo favorável, Senhor Deus." },
-  { id: 2, dateLabel: "ontem", date: "31 de março de 2026", title: "Mensagem de ontem", ref: "Responsório Sl 115(116B),12-13.15-16bc.17-18 (R. cf. 1Cor 10,16)", text: "- O cálice por nós abençoado é a nossa comunhão com o sangue do Senhor." },
-  { id: 3, dateLabel: "segunda", date: "30 de março de 2026", title: "Mensagem de segunda", ref: "Responsório Sl 30(31),2.6.12-13.15-16.17.25 (R. Lc 23,46)", text: "- Ó Pai, em tuas mãos eu entrego o meu espírito." },
-  { id: 4, dateLabel: "domingo", date: "29 de março de 2026", title: "Mensagem de domingo", ref: "Responsório Sl 21(22),8-9.17-18a.19-20.23-24 (R. 2a)", text: "- Meu Deus, meu Deus, por que me abandonastes?" },
-  { id: 5, dateLabel: "sábado", date: "28 de março de 2026", title: "Mensagem de sábado", ref: "Responsório Jeremias 31,10.11-12ab.13 (R. cf. 10d)", text: "- O Senhor nos guardará qual pastor a seu rebanho." },
-  { id: 6, dateLabel: "sexta", date: "27 de março de 2026", title: "Mensagem de sexta", ref: "Responsório Sl 17(18),2-3a.3bc-4.5-6.7 (R. cf. 7)", text: "- Ao Senhor eu invoquei na minha angústia e elevei o meu clamor." },
-  { id: 7, dateLabel: "quinta", date: "26 de março de 2026", title: "Mensagem de quinta", ref: "Responsório Sl 104(105),4-5.6-7.8-9 (R. 4a)", text: "- Buscai constantemente a face do Senhor!" },
-  { id: 8, dateLabel: "quarta", date: "25 de março de 2026", title: "Mensagem de quarta", ref: "Responsório Is 7,10-14; 8,10", text: "- Eis que a Virgem conceberá e dará à luz um filho." },
-  { id: 9, dateLabel: "terça", date: "24 de março de 2026", title: "Mensagem de terça", ref: "Responsório Sl 101(102),2-3.16-18.19-21 (R. 2)", text: "- Senhor, ouvi a minha oração, e o meu clamor chegue até vós!" }
+// Base de frases para Palavra do Dia
+const MENSAGENS_BASE = [
+  { ref: "Responsório Sl 68(69),8-10.21bcd-22.31 e 33-34 (R. 14cb)", text: "- Respondei-me pelo vosso imenso amor, neste tempo favorável, Senhor Deus." },
+  { ref: "Responsório Sl 115(116B),12-13.15-16bc.17-18 (R. cf. 1Cor 10,16)", text: "- O cálice por nós abençoado é a nossa comunhão com o sangue do Senhor." },
+  { ref: "Responsório Sl 30(31),2.6.12-13.15-16.17.25 (R. Lc 23,46)", text: "- Ó Pai, em tuas mãos eu entrego o meu espírito." },
+  { ref: "Responsório Sl 21(22),8-9.17-18a.19-20.23-24 (R. 2a)", text: "- Meu Deus, meu Deus, por que me abandonastes?" },
+  { ref: "Responsório Jeremias 31,10.11-12ab.13 (R. cf. 10d)", text: "- O Senhor nos guardará qual pastor a seu rebanho." },
+  { ref: "Responsório Sl 17(18),2-3a.3bc-4.5-6.7 (R. cf. 7)", text: "- Ao Senhor eu invoquei na minha angústia e elevei o meu clamor." },
+  { ref: "Responsório Sl 104(105),4-5.6-7.8-9 (R. 4a)", text: "- Buscai constantemente a face do Senhor!" },
+  { ref: "Responsório Is 7,10-14; 8,10", text: "- Eis que a Virgem conceberá e dará à luz um filho." },
+  { ref: "Responsório Sl 101(102),2-3.16-18.19-21 (R. 2)", text: "- Senhor, ouvi a minha oração, e o meu clamor chegue até vós!" }
 ];
+
+function generatePalavrasDoDia() {
+  const agora = new Date();
+  const meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+  const diasSemana = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
+
+  const timestampReduzidoParaHoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate()).getTime();
+  const diaAbsolutoIndice = Math.floor(timestampReduzidoParaHoje / (1000 * 60 * 60 * 24));
+  
+  const listaGerada = [];
+  
+  for (let i = 0; i < 15; i++) {
+     const dataDoDia = new Date(timestampReduzidoParaHoje - (i * 24 * 60 * 60 * 1000));
+     const offsetDoDia = diaAbsolutoIndice - i;
+     
+     const mensagemEscolhida = MENSAGENS_BASE[offsetDoDia % MENSAGENS_BASE.length];
+     
+     const diaFormatado = dataDoDia.getDate();
+     const mesFormatado = meses[dataDoDia.getMonth()];
+     const anoFormatado = dataDoDia.getFullYear();
+     const diaSemana = diasSemana[dataDoDia.getDay()];
+     
+     let dateLabel = diaSemana;
+     let titleLabel = `Mensagem de ${diaSemana}`;
+     
+     if (i === 0) {
+       dateLabel = "hoje";
+       titleLabel = "Mensagem de hoje";
+     } else if (i === 1) {
+       dateLabel = "ontem";
+       titleLabel = "Mensagem de ontem";
+     }
+     
+     listaGerada.push({
+        id: offsetDoDia,
+        dateLabel: dateLabel,
+        date: `${diaFormatado} de ${mesFormatado} de ${anoFormatado}`,
+        title: titleLabel,
+        ref: mensagemEscolhida.ref,
+        text: mensagemEscolhida.text
+     });
+  }
+  
+  return listaGerada;
+}
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('home');
@@ -51,6 +96,11 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('Todas');
   const [newsPage, setNewsPage] = useState(1);
   const [palavraPage, setPalavraPage] = useState(1);
+  const [palavrasDoDia, setPalavrasDoDia] = useState([]);
+
+  useEffect(() => {
+     setPalavrasDoDia(generatePalavrasDoDia());
+  }, []);
 
   // Estados de Posts
   const [postsFilter, setPostsFilter] = useState('Todos');
@@ -237,6 +287,22 @@ export default function Home() {
                {domToReact(domNode.children, options)}
             </div>
          );
+      }
+
+      // 4.5. Renderizar o Card individual da Palavra do Dia na Home (.palavra-home-card)
+      if (domNode.attribs && domNode.attribs.class === 'palavra-home-card') {
+          if (palavrasDoDia.length === 0) return null;
+          const msgDestaque = palavrasDoDia[0];
+          return (
+            <div className="palavra-home-card">
+              {msgDestaque.text}<br/><br/>
+              <span style={{fontSize: '11px', color:'#777', fontWeight: 300}}>{msgDestaque.ref}</span>
+              <button className="palavra-home-btn" onClick={() => document.querySelectorAll('.nav-tab')[5].click() /* Palavra do Dia index no header falso */}>
+                  Compartilhe essa mensagem! 
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3l7 7-7 7v-4h-2c-3.31 0-6 2.69-6 6v1H4v-1c0-4.96 4.04-9 9-9h1V3z"/></svg>
+              </button>
+            </div>
+          );
       }
 
       // 5. Renderizar Instagram dinâmico no formato de carrossel (.ig-carousel)
@@ -485,10 +551,10 @@ export default function Home() {
       // 5.8 NOVO COMPONENTE: PALAVRA DO DIA REDESIGN
       // ======================================
       if (domNode.attribs && domNode.attribs.class === 'palavra-redesign-container') {
-          if (PALAVRAS_DUMMY.length === 0) return <div style={{padding:40, textAlign:'center'}}>Nenhuma mensagem hoje.</div>;
+          if (palavrasDoDia.length === 0) return <div style={{padding:40, textAlign:'center'}}>Nenhuma mensagem hoje.</div>;
 
-          const destaque = PALAVRAS_DUMMY[0];
-          const gridPalavras = PALAVRAS_DUMMY.slice(1);
+          const destaque = palavrasDoDia[0];
+          const gridPalavras = palavrasDoDia.slice(1);
           const ITEMS_PER_PAGE = 4;
           const totalPages = Math.ceil(gridPalavras.length / ITEMS_PER_PAGE);
           

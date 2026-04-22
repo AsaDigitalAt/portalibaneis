@@ -67,7 +67,7 @@ export const rawHTML = `
             <div class="noticias-grid" id="noticias-destaque">
                <div class="news-landscape" style="background-image: url('https://placehold.co/400x200');">
                  <div class="blue-pill">Destaque</div>
-                 <div class="news-overlay">Carregando dados da Agência Brasília...</div>
+                 <div class="news-overlay">Carregando as últimas notícias...</div>
                </div>
             </div>
 
