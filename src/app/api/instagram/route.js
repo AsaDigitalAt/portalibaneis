@@ -36,15 +36,30 @@ export async function GET() {
          }
     }
 
-    // 2. Retornar instantaneamente a memória do último Scraper bem-sucedido para não travar a UI
-    const url = `https://api.apify.com/v2/acts/shu8hvrXbJbY3Eb9W/runs/last/dataset/items?token=${token}&status=SUCCEEDED`;
-    const response = await fetch(url, { next: { revalidate: 60 } });
+    // 2. Buscar a última execução bem-sucedida de forma 100% em tempo real, sem cache
+    const successRunsUrl = `https://api.apify.com/v2/acts/shu8hvrXbJbY3Eb9W/runs?token=${token}&status=SUCCEEDED&desc=true&limit=1`;
+    const successRunsRes = await fetch(successRunsUrl, { cache: 'no-store' });
     
-    if (!response.ok) {
-        throw new Error('Falha HTTP');
+    if (!successRunsRes.ok) {
+        throw new Error('Falha ao obter execuções do Apify');
     }
-    const data = await response.json();
-    return NextResponse.json({ posts: data });
+    const successRunsData = await successRunsRes.json();
+    let posts = [];
+    
+    if (successRunsData?.data?.items?.length > 0) {
+        const lastSuccessRun = successRunsData.data.items[0];
+        const datasetId = lastSuccessRun.defaultDatasetId;
+        
+        // Busca direta pelo ID exato do dataset (é imutável após concluir)
+        const datasetUrl = `https://api.apify.com/v2/datasets/${datasetId}/items?token=${token}`;
+        const datasetRes = await fetch(datasetUrl, { cache: 'no-store' }); // Agora 100% em tempo real
+        
+        if (datasetRes.ok) {
+            posts = await datasetRes.json();
+        }
+    }
+
+    return NextResponse.json({ posts });
     
   } catch(error) {
     console.error('IG Apify falhou:', error);
